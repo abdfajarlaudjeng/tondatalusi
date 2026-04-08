@@ -6,7 +6,6 @@
     <title>Portal Edukasi - Kombel Tonda Talusi</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         body { background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, sans-serif; }
         .hidden-section { display: none !important; }
@@ -52,14 +51,14 @@
         <div id="panel-materi">
             <div id="guru-menu" class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 border-2 border-dashed border-slate-200 hidden-section">
                 <h3 id="form-title" class="font-bold text-slate-800 mb-6 flex items-center gap-2"><span>📝</span> Posting Materi Baru</h3>
-                <input type="hidden" id="m-id-edit"> <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                <input type="hidden" id="m-id-edit">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                     <input type="text" id="m-judul" placeholder="Judul Materi" class="border p-3 rounded-xl bg-slate-50 outline-none">
                     <select id="m-mapel-select" class="border p-3 rounded-xl bg-slate-50 outline-none"></select>
                     <select id="m-jenjang-target" class="border p-3 rounded-xl bg-slate-50 outline-none">
                         <option value="7">Kelas 7</option>
                         <option value="8">Kelas 8</option>
                         <option value="9">Kelas 9</option>
-                        <option value="umum">Umum</option>
                     </select>
                     <input type="text" id="m-link" placeholder="Link YouTube/Drive" class="border p-3 rounded-xl bg-slate-50 outline-none">
                 </div>
@@ -69,29 +68,48 @@
                     <button id="btn-cancel-edit" class="bg-slate-200 text-slate-600 px-8 py-3 rounded-xl font-bold hidden-section">Batal</button>
                 </div>
             </div>
-
             <div id="filter-mapel" class="flex gap-3 mb-8 overflow-x-auto pb-2"></div>
             <div id="materi-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
 
         <div id="panel-admin-panel" class="hidden-section space-y-8">
             <div class="bg-white p-8 rounded-[2rem] shadow-sm">
-                <h3 class="font-bold mb-4 text-indigo-600">🛠️ Manajemen Mata Pelajaran</h3>
+                <h3 class="font-bold mb-4 text-indigo-600 uppercase">🛠️ Manajemen Mata Pelajaran</h3>
                 <div class="flex gap-3 mb-4">
                     <input type="text" id="new-mapel-name" placeholder="Nama Mapel Baru" class="border p-3 rounded-xl bg-slate-50 flex-grow">
                     <button id="btn-add-mapel" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold">Tambah</button>
                 </div>
-                <div id="mapel-list" class="flex flex-wrap gap-2"></div>
+                <div id="mapel-list" class="flex flex-wrap gap-2 border-t pt-4"></div>
+            </div>
+
+            <div class="bg-white p-8 rounded-[2rem] shadow-sm">
+                <h3 class="font-bold mb-4 text-indigo-600 uppercase">👥 Manajemen Pengguna</h3>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-3 mb-4">
+                    <input type="text" id="u-username" placeholder="Username" class="border p-3 rounded-xl bg-slate-50">
+                    <input type="text" id="u-nama" placeholder="Nama Lengkap" class="border p-3 rounded-xl bg-slate-50">
+                    <input type="password" id="u-pass" placeholder="Password" class="border p-3 rounded-xl bg-slate-50">
+                    <select id="u-role" class="border p-3 rounded-xl bg-slate-50">
+                        <option value="siswa">Siswa</option>
+                        <option value="guru">Guru</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <select id="u-jenjang" class="border p-3 rounded-xl bg-slate-50">
+                        <option value="7">Kelas 7</option>
+                        <option value="8">Kelas 8</option>
+                        <option value="9">Kelas 9</option>
+                    </select>
+                </div>
+                <button id="btn-add-user" class="w-full bg-slate-800 text-white p-3 rounded-xl font-bold">Simpan Pengguna Baru</button>
             </div>
         </div>
-        
+
         <div id="panel-penilaian" class="hidden-section">
             <div class="bg-white p-8 rounded-[2rem] shadow-sm">
-                <h3 class="font-bold mb-6">📋 Daftar Tugas Siswa</h3>
+                <h3 class="font-bold mb-6">📋 Monitoring & Penilaian Siswa</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
                         <thead class="bg-slate-50">
-                            <tr><th class="p-4">Siswa</th><th class="p-4">Mapel</th><th class="p-4">Tugas</th><th class="p-4">Nilai</th><th class="p-4">Aksi</th></tr>
+                            <tr><th class="p-4">Siswa</th><th class="p-4">Kelas</th><th class="p-4">Mapel</th><th class="p-4">Tugas</th><th class="p-4">Link</th><th class="p-4">Nilai</th><th class="p-4">Aksi</th></tr>
                         </thead>
                         <tbody id="tabel-penilaian"></tbody>
                     </table>
@@ -110,6 +128,12 @@
                 <div class="modal-body p-8">
                     <div id="modalDescription" class="mb-6 text-slate-600 whitespace-pre-wrap"></div>
                     <div id="modalMedia"></div>
+                    
+                    <div id="form-tugas-siswa" class="mt-8 pt-8 border-t hidden-section">
+                        <h4 class="font-bold mb-4">📤 Kumpulkan Tugas</h4>
+                        <input type="text" id="tugas-link" placeholder="Link hasil tugas (Google Drive/Canva/dsb)" class="w-full p-3 border rounded-xl mb-3">
+                        <button id="btn-submit-tugas" class="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold">Kirim Tugas</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,15 +156,17 @@
 
         let userData = null;
         let MAPELS = [];
-        let currentActiveMapel = "";
+        let currentMateriId = null;
+        let currentMateriData = null;
 
         // Navigation
         window.showPanel = (id) => {
             ['panel-materi', 'panel-penilaian', 'panel-admin-panel'].forEach(p => document.getElementById(p).classList.add('hidden-section'));
             document.getElementById('panel-' + id).classList.remove('hidden-section');
+            if(id === 'penilaian') loadTugas();
         };
 
-        // --- LOGIN ---
+        // --- AUTH ---
         document.getElementById('btn-login').onclick = async () => {
             const u = document.getElementById('user').value;
             const p = document.getElementById('pass').value;
@@ -154,7 +180,7 @@
                 
                 setupRoleAccess();
                 listenMapels();
-            } else { alert("Login gagal!"); }
+            } else { alert("Username atau Password salah!"); }
         };
 
         function setupRoleAccess() {
@@ -165,7 +191,7 @@
             }
         }
 
-        // --- CRUD MATERI ---
+        // --- MATERI LOGIC ---
         document.getElementById('btn-save-materi').onclick = async () => {
             const idEdit = document.getElementById('m-id-edit').value;
             const mapel = document.getElementById('m-mapel-select').value;
@@ -184,38 +210,32 @@
             if(!payload.judul || !payload.isi) return alert("Lengkapi data!");
 
             if(idEdit) {
-                // Mode Update
                 await set(ref(db, `materi_v2/${jenjang}/${mapel}/${idEdit}`), payload);
-                alert("Materi diperbarui!");
             } else {
-                // Mode Create
                 await push(ref(db, `materi_v2/${jenjang}/${mapel}`), payload);
-                alert("Materi berhasil diposting!");
             }
+            alert("Berhasil!");
             resetFormMateri();
         };
 
         window.loadMateri = (mapel) => {
-            currentActiveMapel = mapel;
             const path = `materi_v2/${userData.jenjang}/${mapel}`;
             onValue(ref(db, path), (snap) => {
                 const container = document.getElementById('materi-container');
                 container.innerHTML = '';
                 const data = snap.val();
-                
                 if(!data) {
                     container.innerHTML = `<div class="col-span-full text-center py-20 text-slate-400">Belum ada materi ${mapel}</div>`;
                     return;
                 }
-                
                 Object.keys(data).forEach(id => {
                     const m = data[id];
                     container.innerHTML += `
                         <div class="p-6 card-materi border-l-4 border-blue-500 shadow-sm">
-                            <span class="text-[10px] font-bold text-blue-500 uppercase">${mapel} - Kelas ${userData.jenjang}</span>
+                            <span class="text-[10px] font-bold text-blue-500 uppercase">${mapel}</span>
                             <h3 class="font-bold text-lg mb-4 text-slate-800">${m.judul}</h3>
                             <div class="flex justify-between items-center">
-                                <button onclick="viewMateri('${id}', '${mapel}')" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold">Baca</button>
+                                <button onclick="viewMateri('${id}', '${mapel}')" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold">Baca & Tugas</button>
                                 ${(userData.role === 'admin' || m.guru === userData.nama) ? `
                                     <div class="flex gap-2">
                                         <button onclick="editMateri('${id}', '${mapel}')" class="text-amber-500 text-xs font-bold">Edit</button>
@@ -228,28 +248,122 @@
             });
         };
 
-        window.editMateri = async (id, mapel) => {
+        window.viewMateri = async (id, mapel) => {
             const snap = await get(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
-            const m = snap.val();
+            currentMateriData = snap.val();
+            currentMateriId = id;
+
+            document.getElementById('modalTitle').innerText = currentMateriData.judul;
+            document.getElementById('modalDescription').innerText = currentMateriData.isi;
+            document.getElementById('modalMedia').innerHTML = currentMateriData.link ? 
+                `<a href="${currentMateriData.link}" target="_blank" class="block p-4 bg-blue-50 text-blue-600 rounded-xl text-center font-bold">🔗 Buka Lampiran / Video</a>` : '';
             
-            document.getElementById('m-id-edit').value = id;
-            document.getElementById('m-judul').value = m.judul;
-            document.getElementById('m-mapel-select').value = m.mapel;
-            document.getElementById('m-jenjang-target').value = m.jenjang;
-            document.getElementById('m-link').value = m.link;
-            document.getElementById('m-isi').value = m.isi;
+            // Tampilkan form tugas hanya untuk siswa
+            const formTugas = document.getElementById('form-tugas-siswa');
+            userData.role === 'siswa' ? formTugas.classList.remove('hidden-section') : formTugas.classList.add('hidden-section');
             
-            document.getElementById('form-title').innerText = "🔄 Edit Materi";
-            document.getElementById('btn-cancel-edit').classList.remove('hidden-section');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            modalUI.show();
         };
 
-        window.deleteMateri = async (id, mapel) => {
-            if(confirm("Hapus materi ini?")) {
-                await remove(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
+        // --- PENILAIAN / TUGAS LOGIC ---
+        document.getElementById('btn-submit-tugas').onclick = async () => {
+            const link = document.getElementById('tugas-link').value;
+            if(!link) return alert("Masukkan link tugas!");
+
+            const payload = {
+                siswa: userData.nama,
+                username: userData.username,
+                jenjang: userData.jenjang,
+                mapel: currentMateriData.mapel,
+                judulTugas: currentMateriData.judul,
+                materiId: currentMateriId,
+                linkTugas: link,
+                nilai: "-",
+                status: "Terkirim",
+                timestamp: new Date().toISOString()
+            };
+
+            await push(ref(db, `tugas_siswa`), payload);
+            alert("Tugas berhasil dikirim!");
+            modalUI.hide();
+        };
+
+        function loadTugas() {
+            onValue(ref(db, `tugas_siswa`), (snap) => {
+                const tbody = document.getElementById('tabel-penilaian');
+                tbody.innerHTML = '';
+                const data = snap.val();
+                if(!data) return;
+
+                Object.keys(data).forEach(id => {
+                    const t = data[id];
+                    // Filter: Guru hanya melihat jenjangnya, Admin lihat semua
+                    if(userData.role !== 'admin' && t.jenjang !== userData.jenjang) return;
+
+                    tbody.innerHTML += `
+                        <tr class="border-b">
+                            <td class="p-4 font-bold">${t.siswa}</td>
+                            <td class="p-4">Kelas ${t.jenjang}</td>
+                            <td class="p-4 text-xs">${t.mapel}</td>
+                            <td class="p-4 text-xs">${t.judulTugas}</td>
+                            <td class="p-4"><a href="${t.linkTugas}" target="_blank" class="text-blue-600">Buka</a></td>
+                            <td class="p-4"><input type="text" value="${t.nilai}" onchange="updateNilai('${id}', this.value)" class="w-12 border rounded text-center"></td>
+                            <td class="p-4"><button onclick="hapusTugas('${id}')" class="text-red-500 text-xs">Hapus</button></td>
+                        </tr>`;
+                });
+            });
+        }
+
+        window.updateNilai = async (id, val) => {
+            await update(ref(db, `tugas_siswa/${id}`), { nilai: val });
+        };
+
+        // --- ADMIN: MANAJEMEN MAPEL ---
+        document.getElementById('btn-add-mapel').onclick = async () => {
+            const name = document.getElementById('new-mapel-name').value;
+            if(name) {
+                await push(ref(db, 'settings/mapels'), name);
+                document.getElementById('new-mapel-name').value = '';
             }
         };
 
+        function listenMapels() {
+            onValue(ref(db, 'settings/mapels'), (snap) => {
+                const data = snap.val();
+                MAPELS = data ? Object.values(data) : ["Umum"];
+                const filter = document.getElementById('filter-mapel');
+                const select = document.getElementById('m-mapel-select');
+                const listAdmin = document.getElementById('mapel-list');
+                
+                filter.innerHTML = ''; select.innerHTML = ''; listAdmin.innerHTML = '';
+                
+                Object.keys(data || {}).forEach(key => {
+                    const m = data[key];
+                    filter.innerHTML += `<button onclick="loadMateri('${m}')" class="px-6 py-2 bg-white border rounded-xl font-bold btn-action shadow-sm whitespace-nowrap">${m}</button>`;
+                    select.innerHTML += `<option value="${m}">${m}</option>`;
+                    listAdmin.innerHTML += `<div class="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-lg text-sm font-bold flex gap-2">${m} <button onclick="hapusMapel('${key}')" class="text-red-500">×</button></div>`;
+                });
+                if(MAPELS.length > 0) loadMateri(MAPELS[0]);
+            });
+        }
+
+        window.hapusMapel = (key) => confirm("Hapus mapel?") && remove(ref(db, `settings/mapels/${key}`));
+
+        // --- ADMIN: MANAJEMEN USER ---
+        document.getElementById('btn-add-user').onclick = async () => {
+            const u = document.getElementById('u-username').value;
+            const payload = {
+                nama: document.getElementById('u-nama').value,
+                password: document.getElementById('u-pass').value,
+                role: document.getElementById('u-role').value,
+                jenjang: document.getElementById('u-jenjang').value
+            };
+            if(!u || !payload.nama) return alert("Isi data user!");
+            await set(ref(db, `users/${u}`), payload);
+            alert("User berhasil disimpan!");
+        };
+
+        // Helper functions
         function resetFormMateri() {
             document.getElementById('m-id-edit').value = '';
             document.getElementById('form-title').innerText = "📝 Posting Materi Baru";
@@ -257,36 +371,24 @@
             ['m-judul', 'm-link', 'm-isi'].forEach(id => document.getElementById(id).value = '');
         }
 
-        document.getElementById('btn-cancel-edit').onclick = resetFormMateri;
-
-        // --- MAPEL LOGIC ---
-        function listenMapels() {
-            onValue(ref(db, 'settings/mapels'), (snap) => {
-                MAPELS = snap.val() ? Object.values(snap.val()) : ["Umum"];
-                const filter = document.getElementById('filter-mapel');
-                const select = document.getElementById('m-mapel-select');
-                filter.innerHTML = ''; select.innerHTML = '';
-                
-                MAPELS.forEach(m => {
-                    filter.innerHTML += `<button onclick="loadMateri('${m}')" class="px-6 py-2 bg-white border rounded-xl font-bold btn-action shadow-sm">${m}</button>`;
-                    select.innerHTML += `<option value="${m}">${m}</option>`;
-                });
-                if(MAPELS.length > 0) loadMateri(MAPELS[0]);
-            });
-        }
-
-        // View Materi Modal
-        window.viewMateri = async (id, mapel) => {
+        window.editMateri = async (id, mapel) => {
             const snap = await get(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
             const m = snap.val();
-            document.getElementById('modalTitle').innerText = m.judul;
-            document.getElementById('modalDescription').innerText = m.isi;
-            const media = document.getElementById('modalMedia');
-            media.innerHTML = m.link ? `<a href="${m.link}" target="_blank" class="block p-4 bg-blue-50 text-blue-600 rounded-xl text-center font-bold">🔗 Buka Lampiran / Video</a>` : '';
-            modalUI.show();
+            document.getElementById('m-id-edit').value = id;
+            document.getElementById('m-judul').value = m.judul;
+            document.getElementById('m-mapel-select').value = m.mapel;
+            document.getElementById('m-jenjang-target').value = m.jenjang;
+            document.getElementById('m-link').value = m.link;
+            document.getElementById('m-isi').value = m.isi;
+            document.getElementById('form-title').innerText = "🔄 Edit Materi";
+            document.getElementById('btn-cancel-edit').classList.remove('hidden-section');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
+        window.deleteMateri = async (id, mapel) => confirm("Hapus materi?") && remove(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
+        window.hapusTugas = (id) => confirm("Hapus data tugas?") && remove(ref(db, `tugas_siswa/${id}`));
         document.getElementById('btn-logout').onclick = () => location.reload();
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
