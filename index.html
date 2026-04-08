@@ -51,8 +51,8 @@
 
         <div id="panel-materi">
             <div id="guru-menu" class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 border-2 border-dashed border-slate-200 hidden-section">
-                <h3 class="font-bold text-slate-800 mb-6 flex items-center gap-2"><span>📝</span> Posting Materi Baru</h3>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                <h3 id="form-title" class="font-bold text-slate-800 mb-6 flex items-center gap-2"><span>📝</span> Posting Materi Baru</h3>
+                <input type="hidden" id="m-id-edit"> <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                     <input type="text" id="m-judul" placeholder="Judul Materi" class="border p-3 rounded-xl bg-slate-50 outline-none">
                     <select id="m-mapel-select" class="border p-3 rounded-xl bg-slate-50 outline-none"></select>
                     <select id="m-jenjang-target" class="border p-3 rounded-xl bg-slate-50 outline-none">
@@ -64,11 +64,13 @@
                     <input type="text" id="m-link" placeholder="Link YouTube/Drive" class="border p-3 rounded-xl bg-slate-50 outline-none">
                 </div>
                 <textarea id="m-isi" placeholder="Deskripsi materi atau instruksi..." class="w-full border p-4 rounded-xl bg-slate-50 outline-none mb-4" rows="3"></textarea>
-                <button id="btn-save-materi" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold shadow-md hover:bg-emerald-700 transition-all w-full md:w-auto">Simpan & Publikasikan</button>
+                <div class="flex gap-2">
+                    <button id="btn-save-materi" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold shadow-md hover:bg-emerald-700 transition-all">Simpan Materi</button>
+                    <button id="btn-cancel-edit" class="bg-slate-200 text-slate-600 px-8 py-3 rounded-xl font-bold hidden-section">Batal</button>
+                </div>
             </div>
 
             <div id="filter-mapel" class="flex gap-3 mb-8 overflow-x-auto pb-2"></div>
-            
             <div id="materi-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
 
@@ -81,53 +83,15 @@
                 </div>
                 <div id="mapel-list" class="flex flex-wrap gap-2"></div>
             </div>
-
-            <div class="bg-white p-8 rounded-[2rem] shadow-sm border-2 border-indigo-100">
-                <h3 class="font-bold mb-4">📂 Bulk Data (Excel)</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="p-6 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
-                        <p class="text-sm font-bold mb-3">Import Data User (.xlsx)</p>
-                        <input type="file" id="excel-file" class="text-xs mb-3 block w-full">
-                        <button onclick="importExcel()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-xs font-bold">Import Sekarang</button>
-                    </div>
-                    <div class="p-6 bg-slate-50 rounded-2xl flex flex-col justify-center items-center">
-                        <button onclick="exportUsers()" class="bg-emerald-600 text-white px-8 py-4 rounded-2xl font-bold w-full mb-2">Export Seluruh User</button>
-                        <p class="text-[10px] text-slate-500">Download data akun ke format Excel</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white p-8 rounded-[2rem] shadow-sm">
-                <h3 class="font-bold mb-4">👤 Tambah Akun Manual</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
-                    <input type="text" id="u-user" placeholder="Username" class="border p-3 rounded-xl bg-slate-50 text-sm">
-                    <input type="text" id="u-pass" placeholder="Password" class="border p-3 rounded-xl bg-slate-50 text-sm">
-                    <input type="text" id="u-nama" placeholder="Nama Lengkap" class="border p-3 rounded-xl bg-slate-50 text-sm">
-                    <input type="text" id="u-sekolah" placeholder="Sekolah" class="border p-3 rounded-xl bg-slate-50 text-sm">
-                    <select id="u-role" class="border p-3 rounded-xl bg-slate-50 text-sm">
-                        <option value="siswa">Siswa</option>
-                        <option value="guru">Guru</option>
-                        <option value="admin">Admin</option>
-                    </select>
-                    <input type="text" id="u-jenjang" placeholder="Kelas (7/8/9)" class="border p-3 rounded-xl bg-slate-50 text-sm">
-                </div>
-                <button id="btn-add-user" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold w-full">Simpan Akun</button>
-            </div>
         </div>
-
+        
         <div id="panel-penilaian" class="hidden-section">
             <div class="bg-white p-8 rounded-[2rem] shadow-sm">
                 <h3 class="font-bold mb-6">📋 Daftar Tugas Siswa</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
                         <thead class="bg-slate-50">
-                            <tr>
-                                <th class="p-4">Siswa</th>
-                                <th class="p-4">Mapel</th>
-                                <th class="p-4">Tugas</th>
-                                <th class="p-4">Nilai</th>
-                                <th class="p-4">Aksi</th>
-                            </tr>
+                            <tr><th class="p-4">Siswa</th><th class="p-4">Mapel</th><th class="p-4">Tugas</th><th class="p-4">Nilai</th><th class="p-4">Aksi</th></tr>
                         </thead>
                         <tbody id="tabel-penilaian"></tbody>
                     </table>
@@ -144,7 +108,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-8">
-                    <div id="modalDescription" class="mb-6 text-slate-600 leading-relaxed whitespace-pre-wrap"></div>
+                    <div id="modalDescription" class="mb-6 text-slate-600 whitespace-pre-wrap"></div>
                     <div id="modalMedia"></div>
                 </div>
             </div>
@@ -168,11 +132,11 @@
 
         let userData = null;
         let MAPELS = [];
+        let currentActiveMapel = "";
 
         // Navigation
         window.showPanel = (id) => {
-            const panels = ['panel-materi', 'panel-penilaian', 'panel-admin-panel'];
-            panels.forEach(p => document.getElementById(p).classList.add('hidden-section'));
+            ['panel-materi', 'panel-penilaian', 'panel-admin-panel'].forEach(p => document.getElementById(p).classList.add('hidden-section'));
             document.getElementById('panel-' + id).classList.remove('hidden-section');
         };
 
@@ -190,204 +154,136 @@
                 
                 setupRoleAccess();
                 listenMapels();
-            } else { alert("Login gagal! Periksa kembali username/password."); }
+            } else { alert("Login gagal!"); }
         };
 
         function setupRoleAccess() {
             if (userData.role === 'admin' || userData.role === 'guru') {
                 document.getElementById('guru-menu').classList.remove('hidden-section');
                 document.getElementById('nav-penilaian').classList.remove('hidden-section');
-                loadDaftarTugas();
                 if(userData.role === 'admin') document.getElementById('nav-admin').classList.remove('hidden-section');
             }
         }
 
-        // --- MANAJEMEN MATERI (CRUD) ---
+        // --- CRUD MATERI ---
         document.getElementById('btn-save-materi').onclick = async () => {
+            const idEdit = document.getElementById('m-id-edit').value;
             const mapel = document.getElementById('m-mapel-select').value;
             const jenjang = document.getElementById('m-jenjang-target').value;
+            
             const payload = {
                 judul: document.getElementById('m-judul').value,
                 link: document.getElementById('m-link').value,
                 isi: document.getElementById('m-isi').value,
+                mapel: mapel,
+                jenjang: jenjang,
                 guru: userData.nama,
                 timestamp: new Date().toISOString()
             };
 
-            if(!payload.judul || !payload.isi) return alert("Mohon lengkapi judul dan isi materi.");
-            
-            await push(ref(db, `materi_v2/${jenjang}/${mapel}`), payload);
-            alert("Materi berhasil disimpan!");
-            
-            // Clear inputs
-            ['m-judul', 'm-link', 'm-isi'].forEach(id => document.getElementById(id).value = '');
+            if(!payload.judul || !payload.isi) return alert("Lengkapi data!");
+
+            if(idEdit) {
+                // Mode Update
+                await set(ref(db, `materi_v2/${jenjang}/${mapel}/${idEdit}`), payload);
+                alert("Materi diperbarui!");
+            } else {
+                // Mode Create
+                await push(ref(db, `materi_v2/${jenjang}/${mapel}`), payload);
+                alert("Materi berhasil diposting!");
+            }
+            resetFormMateri();
         };
 
         window.loadMateri = (mapel) => {
+            currentActiveMapel = mapel;
             const path = `materi_v2/${userData.jenjang}/${mapel}`;
             onValue(ref(db, path), (snap) => {
                 const container = document.getElementById('materi-container');
                 container.innerHTML = '';
                 const data = snap.val();
-                if(!data) { 
-                    container.innerHTML = `<div class="col-span-full text-center py-20 text-slate-400">Belum ada materi untuk ${mapel} di kelas ${userData.jenjang}</div>`; 
-                    return; 
+                
+                if(!data) {
+                    container.innerHTML = `<div class="col-span-full text-center py-20 text-slate-400">Belum ada materi ${mapel}</div>`;
+                    return;
                 }
                 
                 Object.keys(data).forEach(id => {
                     const m = data[id];
                     container.innerHTML += `
-                        <div class="p-6 card-materi border-l-4 border-blue-500 shadow-sm relative">
-                            <span class="text-[10px] font-bold text-blue-500 uppercase">${mapel}</span>
+                        <div class="p-6 card-materi border-l-4 border-blue-500 shadow-sm">
+                            <span class="text-[10px] font-bold text-blue-500 uppercase">${mapel} - Kelas ${userData.jenjang}</span>
                             <h3 class="font-bold text-lg mb-4 text-slate-800">${m.judul}</h3>
                             <div class="flex justify-between items-center">
-                                <button onclick="window.viewMateri('${id}', '${mapel}')" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold">Buka Materi</button>
-                                ${userData.role === 'admin' || m.guru === userData.nama ? 
-                                    `<button onclick="deleteMateri('${id}','${mapel}')" class="text-red-400 hover:text-red-600 text-xs font-bold">Hapus</button>` : ''}
+                                <button onclick="viewMateri('${id}', '${mapel}')" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold">Baca</button>
+                                ${(userData.role === 'admin' || m.guru === userData.nama) ? `
+                                    <div class="flex gap-2">
+                                        <button onclick="editMateri('${id}', '${mapel}')" class="text-amber-500 text-xs font-bold">Edit</button>
+                                        <button onclick="deleteMateri('${id}', '${mapel}')" class="text-red-500 text-xs font-bold">Hapus</button>
+                                    </div>
+                                ` : ''}
                             </div>
                         </div>`;
                 });
             });
         };
 
+        window.editMateri = async (id, mapel) => {
+            const snap = await get(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
+            const m = snap.val();
+            
+            document.getElementById('m-id-edit').value = id;
+            document.getElementById('m-judul').value = m.judul;
+            document.getElementById('m-mapel-select').value = m.mapel;
+            document.getElementById('m-jenjang-target').value = m.jenjang;
+            document.getElementById('m-link').value = m.link;
+            document.getElementById('m-isi').value = m.isi;
+            
+            document.getElementById('form-title').innerText = "🔄 Edit Materi";
+            document.getElementById('btn-cancel-edit').classList.remove('hidden-section');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.deleteMateri = async (id, mapel) => {
+            if(confirm("Hapus materi ini?")) {
+                await remove(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
+            }
+        };
+
+        function resetFormMateri() {
+            document.getElementById('m-id-edit').value = '';
+            document.getElementById('form-title').innerText = "📝 Posting Materi Baru";
+            document.getElementById('btn-cancel-edit').classList.add('hidden-section');
+            ['m-judul', 'm-link', 'm-isi'].forEach(id => document.getElementById(id).value = '');
+        }
+
+        document.getElementById('btn-cancel-edit').onclick = resetFormMateri;
+
+        // --- MAPEL LOGIC ---
+        function listenMapels() {
+            onValue(ref(db, 'settings/mapels'), (snap) => {
+                MAPELS = snap.val() ? Object.values(snap.val()) : ["Umum"];
+                const filter = document.getElementById('filter-mapel');
+                const select = document.getElementById('m-mapel-select');
+                filter.innerHTML = ''; select.innerHTML = '';
+                
+                MAPELS.forEach(m => {
+                    filter.innerHTML += `<button onclick="loadMateri('${m}')" class="px-6 py-2 bg-white border rounded-xl font-bold btn-action shadow-sm">${m}</button>`;
+                    select.innerHTML += `<option value="${m}">${m}</option>`;
+                });
+                if(MAPELS.length > 0) loadMateri(MAPELS[0]);
+            });
+        }
+
+        // View Materi Modal
         window.viewMateri = async (id, mapel) => {
             const snap = await get(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
             const m = snap.val();
             document.getElementById('modalTitle').innerText = m.judul;
             document.getElementById('modalDescription').innerText = m.isi;
             const media = document.getElementById('modalMedia');
-            media.innerHTML = '';
-
-            if (m.link) {
-                if (m.link.includes('youtube.com') || m.link.includes('youtu.be')) {
-                    const vidId = m.link.split('v=')[1]?.split('&')[0] || m.link.split('/').pop();
-                    media.innerHTML = `<div class="aspect-video rounded-3xl overflow-hidden shadow-lg"><iframe class="w-full h-full" src="https://www.youtube.com/embed/${vidId}" frameborder="0" allowfullscreen></iframe></div>`;
-                } else {
-                    media.innerHTML = `<a href="${m.link}" target="_blank" class="block p-6 bg-blue-50 text-blue-600 rounded-2xl text-center font-bold border border-blue-100">🔗 Klik untuk Membuka Lampiran Materi</a>`;
-                }
-            }
+            media.innerHTML = m.link ? `<a href="${m.link}" target="_blank" class="block p-4 bg-blue-50 text-blue-600 rounded-xl text-center font-bold">🔗 Buka Lampiran / Video</a>` : '';
             modalUI.show();
-        };
-
-        window.deleteMateri = async (id, mapel) => {
-            if(confirm("Hapus materi ini secara permanen?")) {
-                await remove(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
-            }
-        };
-
-        // --- MANAJEMEN MAPEL ---
-        function listenMapels() {
-            onValue(ref(db, 'settings/mapels'), (snap) => {
-                MAPELS = snap.val() ? Object.values(snap.val()) : ["Matematika", "IPA", "Informatika"];
-                renderMapelUI();
-            });
-        }
-
-        function renderMapelUI() {
-            const filterContainer = document.getElementById('filter-mapel');
-            const selectMapel = document.getElementById('m-mapel-select');
-            const adminMapelList = document.getElementById('mapel-list');
-            
-            filterContainer.innerHTML = '';
-            selectMapel.innerHTML = '';
-            adminMapelList.innerHTML = '';
-
-            MAPELS.forEach(m => {
-                filterContainer.innerHTML += `<button onclick="window.loadMateri('${m}')" class="px-6 py-2 bg-white border rounded-xl font-bold text-slate-700 whitespace-nowrap btn-action shadow-sm">${m}</button>`;
-                selectMapel.innerHTML += `<option value="${m}">${m}</option>`;
-                adminMapelList.innerHTML += `
-                    <div class="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-xl flex items-center gap-3">
-                        <span class="font-bold text-sm">${m}</span>
-                        <button onclick="deleteMapel('${m}')" class="text-red-500 font-black hover:scale-125 transition-all">×</button>
-                    </div>`;
-            });
-            // Initial load first mapel
-            if(MAPELS.length > 0) loadMateri(MAPELS[0]);
-        }
-
-        document.getElementById('btn-add-mapel').onclick = async () => {
-            const name = document.getElementById('new-mapel-name').value;
-            if(name) {
-                await set(ref(db, `settings/mapels/${name}`), name);
-                document.getElementById('new-mapel-name').value = '';
-            }
-        };
-
-        window.deleteMapel = async (name) => {
-            if(confirm(`Hapus mapel ${name}? Semua materi di dalamnya akan tersembunyi.`)) {
-                await remove(ref(db, `settings/mapels/${name}`));
-            }
-        };
-
-        // --- ADMIN: EXCEL & USER ---
-        window.importExcel = () => {
-            const file = document.getElementById('excel-file').files[0];
-            if(!file) return alert("Pilih file!");
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const workbook = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
-                const json = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
-                for(let row of json) {
-                    if(row.username) {
-                        await set(ref(db, `users/${row.username}`), {
-                            password: String(row.password || "12345"),
-                            nama: row.nama || "User",
-                            sekolah: row.sekolah || "Donggala",
-                            role: row.role || "siswa",
-                            jenjang: String(row.jenjang || "7")
-                        });
-                    }
-                }
-                alert("Data berhasil di-import!");
-            };
-            reader.readAsArrayBuffer(file);
-        };
-
-        window.exportUsers = async () => {
-            const snap = await get(ref(db, 'users'));
-            const data = Object.keys(snap.val()).map(k => ({ username: k, ...snap.val()[k] }));
-            const ws = XLSX.utils.json_to_sheet(data);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Daftar Akun");
-            XLSX.writeFile(wb, "Data_Kombel_Donggala.xlsx");
-        };
-
-        document.getElementById('btn-add-user').onclick = async () => {
-            const u = document.getElementById('u-user').value;
-            if(!u) return alert("Isi username!");
-            await set(ref(db, `users/${u}`), {
-                password: document.getElementById('u-pass').value,
-                nama: document.getElementById('u-nama').value,
-                sekolah: document.getElementById('u-sekolah').value,
-                role: document.getElementById('u-role').value,
-                jenjang: document.getElementById('u-jenjang').value
-            });
-            alert("Akun berhasil dibuat!");
-        };
-
-        // --- PENILAIAN ---
-        function loadDaftarTugas() {
-            onValue(ref(db, `tugas_masuk`), (snap) => {
-                const table = document.getElementById('tabel-penilaian');
-                table.innerHTML = '';
-                if(!snap.val()) return;
-                Object.keys(snap.val()).forEach(id => {
-                    const t = snap.val()[id];
-                    table.innerHTML += `
-                        <tr class="border-b hover:bg-slate-50 transition-all">
-                            <td class="p-4"><b>${t.namaSiswa}</b><br><small class="text-slate-500">${t.sekolah}</small></td>
-                            <td class="p-4 text-xs font-bold">${t.mapel}</td>
-                            <td class="p-4"><a href="${t.linkTugas}" target="_blank" class="text-blue-600 underline font-bold">Buka Link</a></td>
-                            <td class="p-4 font-black text-indigo-600">${t.nilai}</td>
-                            <td class="p-4"><button onclick="window.beriNilai('${id}')" class="bg-indigo-600 text-white px-3 py-1 rounded-lg text-xs">Nilai</button></td>
-                        </tr>`;
-                });
-            });
-        }
-
-        window.beriNilai = (id) => {
-            const n = prompt("Masukkan nilai (0-100):");
-            if(n) update(ref(db, `tugas_masuk/${id}`), { nilai: n });
         };
 
         document.getElementById('btn-logout').onclick = () => location.reload();
