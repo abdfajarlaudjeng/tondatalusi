@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Komunitas Belajar Tonda Talusi</title>
+  <title>Portal Literasi Digital - Kombel Tonda Talusi</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -13,167 +13,89 @@
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
     .card-materi { transition: all 0.3s ease; cursor: pointer; background: white; border-radius: 20px; border: 1px solid #e2e8f0; height: 100%; display: flex; flex-direction: column; }
     .card-materi:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: #3b82f6; }
-    
     .login-container { max-width: 1000px; overflow: hidden; border-radius: 2.5rem; }
     .carousel-item img { height: 100%; object-fit: cover; min-height: 450px; }
-
-    @media print {
-      body * { visibility: hidden; background: white !important; }
-      #admin-log-section, #admin-log-section * { visibility: visible; }
-      #admin-log-section { position: absolute; left: 0; top: 0; width: 100%; }
-      .no-print { display: none !important; }
-      table { border: 1px solid #000 !important; width: 100%; }
-      th, td { border: 1px solid #000 !important; padding: 8px !important; color: black !important; }
-    }
   </style>
 </head>
 <body class="p-4 bg-slate-100 min-h-screen">
 
   <div id="login-section" class="flex items-center justify-center min-h-[95vh]">
     <div class="login-container w-full flex flex-col md:flex-row shadow-2xl bg-white border border-white">
-      
       <div class="w-full md:w-1/2 bg-slate-900 overflow-hidden relative">
         <div id="loginCarousel" class="carousel slide carousel-fade h-full" data-bs-ride="carousel">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#loginCarousel" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#loginCarousel" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#loginCarousel" data-bs-slide-to="2"></button>
-          </div>
           <div class="carousel-inner h-full">
-            <div class="carousel-item active h-full" data-bs-interval="4000">
-              <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=1000" class="d-block w-full" alt="1">
-              <div class="carousel-caption d-none d-md-block bg-black/40 rounded-xl backdrop-blur-sm p-4 mb-4">
-                <h5 class="font-bold">Inovasi Pembelajaran</h5>
-                <p class="text-xs">Membangun masa depan melalui teknologi dan kreativitas.</p>
-              </div>
+            <div class="carousel-item active h-full">
+              <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=1000" class="d-block w-full" alt="Education">
             </div>
-            <div class="carousel-item h-full" data-bs-interval="4000">
-              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000" class="d-block w-full" alt="2">
-              <div class="carousel-caption d-none d-md-block bg-black/40 rounded-xl backdrop-blur-sm p-4 mb-4">
-                <h5 class="font-bold">Kolaborasi Guru</h5>
-                <p class="text-xs">Wadah berbagi praktik baik antar pendidik di Donggala.</p>
-              </div>
-            </div>
-            <div class="carousel-item h-full" data-bs-interval="4000">
-              <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1000" class="d-block w-full" alt="3">
-              <div class="carousel-caption d-none d-md-block bg-black/40 rounded-xl backdrop-blur-sm p-4 mb-4">
-                <h5 class="font-bold">Tonda Talusi</h5>
-                <p class="text-xs">Meningkatkan mutu pendidikan secara berkelanjutan.</p>
-              </div>
+            <div class="carousel-item h-full">
+              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000" class="d-block w-full" alt="Collaboration">
             </div>
           </div>
         </div>
       </div>
-
       <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white">
-        <div class="flex justify-center gap-6 mb-8">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Lambang_Kabupaten_Donggala_%282015-sekarang%29.png" class="h-16 w-auto object-contain">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo-Tut-Wuri-Handayani-PNG-Warna.png" class="h-16 w-auto object-contain">
-        </div>
         <div class="text-center mb-8">
-          <h2 class="text-2xl font-black text-slate-800 tracking-tight uppercase">Komunitas Belajar <br><span class="text-blue-600">Tonda Talusi</span></h2>
-          <p class="text-slate-500 text-sm font-medium">Kabupaten Donggala</p>
+          <h2 class="text-2xl font-black text-slate-800 tracking-tight uppercase">Kombel <span class="text-blue-600">Tonda Talusi</span></h2>
+          <p class="text-slate-500 text-sm font-medium italic">Literasi Digital Kabupaten Donggala</p>
         </div>
         <div class="space-y-4">
-          <input type="text" id="user" placeholder="Username" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all">
-          <input type="password" id="pass" placeholder="Password" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all">
-          <button onclick="handleLogin()" id="btn-login" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-2xl font-bold shadow-lg shadow-blue-200 transition-all transform active:scale-95">MASUK SEKARANG</button>
-          <p class="text-center text-[10px] text-slate-400 mt-4 uppercase tracking-widest">Akses Portal Belajar Terintegrasi</p>
+          <input type="text" id="user" placeholder="Username" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
+          <input type="password" id="pass" placeholder="Password" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
+          <button id="btn-login" class="w-full bg-blue-600 text-white p-4 rounded-2xl font-bold shadow-lg shadow-blue-200 transition-all transform active:scale-95">MASUK SEKARANG</button>
         </div>
       </div>
     </div>
   </div>
 
   <div id="main-section" class="container max-w-6xl mx-auto hidden-section">
-    <div class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-[2rem] shadow-sm no-print gap-4">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-[2rem] shadow-sm gap-4">
       <div class="flex items-center gap-4">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Lambang_Kabupaten_Donggala_%282015-sekarang%29.png" class="h-10">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Lambang_Kabupaten_Donggala_%282015-sekarang%29.png" class="h-10" alt="Logo Donggala">
         <div>
-          <h1 class="text-xl font-black text-slate-800">Kombel Tonda Talusi</h1>
+          <h1 class="text-xl font-black text-slate-800 uppercase">Kombel Tonda Talusi</h1>
           <p id="user-info" class="text-blue-600 font-bold text-xs uppercase"></p>
         </div>
       </div>
       <div class="flex gap-2">
-        <button id="nav-log" onclick="showAdminLog()" class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl font-bold text-sm hidden-section">Log Aktivitas</button>
-        <button id="nav-materi" onclick="refreshData()" class="bg-slate-50 text-slate-600 px-4 py-2 rounded-xl font-bold text-sm">Materi</button>
-        <button onclick="handleLogout()" class="bg-red-50 text-red-600 px-4 py-2 rounded-xl font-bold text-sm">Keluar</button>
+        <button id="btn-logout" class="bg-red-50 text-red-600 px-4 py-2 rounded-xl font-bold text-sm hover:bg-red-100">Keluar</button>
       </div>
     </div>
 
-    <div id="admin-user-menu" class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 hidden-section no-print">
-      <h3 class="font-bold text-slate-800 mb-6 flex items-center gap-2"><span class="p-2 bg-blue-100 rounded-lg text-blue-600">👤</span> Tambah Pengguna Baru</h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        <input type="text" id="new-user-nama" placeholder="Nama Lengkap" class="border p-3 rounded-xl bg-slate-50 outline-none">
-        <input type="text" id="new-user-sekolah" placeholder="Asal Sekolah" class="border p-3 rounded-xl bg-slate-50 outline-none">
-        <input type="text" id="new-user-user" placeholder="Username" class="border p-3 rounded-xl bg-slate-50 outline-none">
-        <input type="password" id="new-user-pass" placeholder="Password" class="border p-3 rounded-xl bg-slate-50 outline-none">
-        <select id="new-user-role" class="border p-3 rounded-xl bg-slate-50 outline-none">
-          <option value="siswa">Siswa</option>
-          <option value="guru">Guru</option>
-          <option value="admin">Admin</option>
-        </select>
-        <button onclick="handleAddUser()" class="bg-blue-600 text-white rounded-xl font-bold">Simpan</button>
-      </div>
-    </div>
-
-    <div id="guru-menu" class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 hidden-section no-print">
-      <h3 id="form-materi-title" class="font-bold text-slate-800 mb-6 flex items-center gap-2"><span class="p-2 bg-orange-100 rounded-lg text-orange-600">📝</span> Tambah Materi Baru</h3>
-      <input type="hidden" id="m-id">
+    <div id="guru-menu" class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 hidden-section border-2 border-dashed border-slate-200">
+      <h3 class="font-bold text-slate-800 mb-6 flex items-center gap-2 text-lg">📝 Kelola Materi Belajar</h3>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        <input type="text" id="m-judul" placeholder="Judul Materi" class="border p-3 rounded-xl bg-slate-50 outline-none">
-        <select id="m-jenjang" class="border p-3 rounded-xl bg-slate-50 outline-none">
+        <input type="text" id="m-judul" placeholder="Judul Materi" class="border p-3 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-blue-400">
+        <select id="m-jenjang" class="border p-3 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-blue-400">
           <option value="tk">Jenjang TK</option>
           <option value="sd">Jenjang SD</option>
           <option value="smp">Jenjang SMP</option>
         </select>
-        <input type="text" id="m-link" placeholder="Link YouTube/Drive" class="border p-3 rounded-xl bg-slate-50 outline-none">
-        <button onclick="handleUpload()" id="btn-upload" class="bg-emerald-600 text-white rounded-xl font-bold">Simpan Materi</button>
+        <input type="text" id="m-link" placeholder="Link YouTube/Drive" class="border p-3 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-blue-400">
+        <button id="btn-save-materi" class="bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 transition-colors">Simpan Materi</button>
       </div>
-      <textarea id="m-isi" placeholder="Deskripsi ringkas..." class="w-full border p-4 rounded-xl bg-slate-50 outline-none" rows="2"></textarea>
-      <button id="btn-cancel-edit" onclick="resetFormMateri()" class="hidden text-red-500 text-xs font-bold mt-2">Batal Edit</button>
+      <textarea id="m-isi" placeholder="Deskripsi ringkas materi..." class="w-full border p-4 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-blue-400" rows="2"></textarea>
     </div>
 
-    <div id="admin-log-section" class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 hidden-section">
-      <div class="flex justify-between items-center mb-6 no-print">
-        <h3 class="font-bold text-slate-800 text-lg">Daftar Aktivitas Siswa</h3>
-        <button onclick="window.print()" class="bg-slate-800 text-white px-4 py-2 rounded-xl text-sm font-bold">🖨️ Cetak PDF</button>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm border-collapse">
-          <thead>
-            <tr class="bg-slate-50 border-b">
-              <th class="p-4">Tanggal</th>
-              <th class="p-4">Nama Siswa</th>
-              <th class="p-4">Asal Sekolah</th>
-              <th class="p-4">Jenjang</th>
-              <th class="p-4">Materi</th>
-              <th class="p-4">Durasi</th>
-            </tr>
-          </thead>
-          <tbody id="log-table-body" class="divide-y"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div id="content-section" class="no-print">
-      <div id="filter-jenjang" class="flex gap-3 mb-8 hidden-section">
-        <button onclick="renderMateri('tk')" class="px-6 py-2 bg-white text-orange-500 border rounded-xl font-bold">TK</button>
-        <button onclick="renderMateri('sd')" class="px-6 py-2 bg-white text-emerald-600 border rounded-xl font-bold">SD</button>
-        <button onclick="renderMateri('smp')" class="px-6 py-2 bg-white text-blue-700 border rounded-xl font-bold">SMP</button>
-      </div>
-      <div id="materi-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div id="content-section">
+        <div id="filter-jenjang" class="flex gap-3 mb-8 hidden-section overflow-x-auto pb-2">
+            <button onclick="window.loadAllMateri('tk')" class="px-6 py-2 bg-white text-orange-500 border rounded-xl font-bold hover:bg-orange-50 min-w-[80px]">TK</button>
+            <button onclick="window.loadAllMateri('sd')" class="px-6 py-2 bg-white text-emerald-600 border rounded-xl font-bold hover:bg-emerald-50 min-w-[80px]">SD</button>
+            <button onclick="window.loadAllMateri('smp')" class="px-6 py-2 bg-white text-blue-700 border rounded-xl font-bold hover:bg-blue-50 min-w-[80px]">SMP</button>
+        </div>
+        <div id="materi-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
     </div>
   </div>
 
-  <div class="modal fade no-print" id="materiModal" data-bs-backdrop="static" tabindex="-1">
+  <div class="modal fade" id="materiModal" data-bs-backdrop="static" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered">
       <div class="modal-content rounded-[2.5rem] border-0 shadow-2xl overflow-hidden">
         <div class="modal-header border-0 px-8 pt-8">
-          <h5 class="modal-title font-black text-2xl" id="modalTitle"></h5>
+          <h5 class="modal-title font-black text-2xl text-slate-800" id="modalTitle"></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body p-8">
-          <div class="bg-slate-50 p-6 rounded-3xl mb-6"><p id="modalDescription" class="text-slate-600"></p></div>
+        <div class="modal-body p-8 pt-4">
+          <div id="modalDescription" class="bg-slate-50 p-6 rounded-3xl mb-6 text-slate-600 leading-relaxed border border-slate-100"></div>
           <div id="modalMedia"></div>
         </div>
       </div>
@@ -181,208 +103,174 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    let userData = null;
-    let allMateri = null;
-    let startTime, currentMateriJudul;
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, set, push, get, child, remove, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    // KONFIGURASI FIREBASE - Sudah disesuaikan dengan datagtkdonggala
+    const firebaseConfig = {
+        apiKey: "AIzaSyB7b8kFlpUrRevwEl0-onf-anerlJGRLPM",
+        authDomain: "datagtkdonggala-7244e.firebaseapp.com",
+        projectId: "datagtkdonggala-7244e",
+        databaseURL: "https://datagtkdonggala-7244e-default-rtdb.asia-southeast1.firebasedatabase.app",
+        storageBucket: "datagtkdonggala-7244e.appspot.com",
+        messagingSenderId: "482000925080",
+        appId: "1:482000925080:web:1f97a41eead6b969b37bed"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
     const myModal = new bootstrap.Modal(document.getElementById('materiModal'));
 
-    function handleLogin() {
-      const u = document.getElementById('user').value;
-      const p = document.getElementById('pass').value;
-      if(!u || !p) return alert("Lengkapi data!");
-      document.getElementById('btn-login').innerText = "Memverifikasi...";
-      google.script.run.withSuccessHandler(res => {
-        if(res.success) {
-          userData = res;
-          initPortal();
-        } else {
-          alert("Login Gagal!");
-          document.getElementById('btn-login').innerText = "MASUK SEKARANG";
+    let userData = null;
+    let startTime, currentMateriJudul;
+
+    // --- FUNGSI LOGIN ---
+    document.getElementById('btn-login').onclick = async () => {
+        const u = document.getElementById('user').value.trim();
+        const p = document.getElementById('pass').value.trim();
+        
+        if(!u || !p) return alert("Silakan masukkan Username dan Password!");
+
+        const btn = document.getElementById('btn-login');
+        btn.innerText = "Mengecek...";
+        btn.disabled = true;
+
+        try {
+            const dbRef = ref(db);
+            const snapshot = await get(child(dbRef, `users/${u}`));
+            
+            if (snapshot.exists() && snapshot.val().password === p) {
+                userData = { ...snapshot.val(), username: u };
+                initPortal();
+            } else {
+                alert("Username atau Password salah!");
+                btn.innerText = "MASUK SEKARANG";
+                btn.disabled = false;
+            }
+        } catch (e) {
+            alert("Error: " + e.message);
+            btn.innerText = "MASUK SEKARANG";
+            btn.disabled = false;
         }
-      }).checkLogin(u, p);
-    }
+    };
 
     function initPortal() {
-      document.getElementById('login-section').classList.add('hidden-section');
-      document.getElementById('main-section').classList.remove('hidden-section');
-      document.getElementById('user-info').innerText = `${userData.nama} • ${userData.sekolah} (${userData.role})`;
-      document.getElementById('nav-log').classList.add('hidden-section');
-      document.getElementById('admin-user-menu').classList.add('hidden-section');
-      document.getElementById('guru-menu').classList.add('hidden-section');
-      document.getElementById('filter-jenjang').classList.add('hidden-section');
-
-      if(userData.role === 'admin') {
-        document.getElementById('nav-log').classList.remove('hidden-section');
-        document.getElementById('admin-user-menu').classList.remove('hidden-section');
-        document.getElementById('guru-menu').classList.remove('hidden-section');
-        document.getElementById('filter-jenjang').classList.remove('hidden-section');
-        showAdminLog();
-      } else if(userData.role === 'guru') {
-        document.getElementById('guru-menu').classList.remove('hidden-section');
-        document.getElementById('filter-jenjang').classList.remove('hidden-section');
-        refreshData();
-      } else {
-        refreshData();
-      }
-    }
-
-    function renderMateri(jenjang) {
-      const container = document.getElementById('materi-container');
-      container.innerHTML = '';
-      const list = allMateri[jenjang] || [];
-      list.forEach((item, index) => {
-        let actionButtons = '';
+        document.getElementById('login-section').classList.add('hidden-section');
+        document.getElementById('main-section').classList.remove('hidden-section');
+        document.getElementById('user-info').innerText = `${userData.nama} • ${userData.sekolah}`;
+        
         if(userData.role !== 'siswa') {
-          actionButtons = `<div class="flex gap-2 mt-auto pt-4 border-t border-slate-100">
-            <button onclick="editMateri('${jenjang}', ${index})" class="text-blue-500 text-xs font-bold bg-blue-50 px-3 py-1 rounded-lg">Edit</button>
-            <button onclick="deleteMateri('${jenjang}', ${index})" class="text-red-500 text-xs font-bold bg-red-50 px-3 py-1 rounded-lg">Hapus</button>
-          </div>`;
+            document.getElementById('guru-menu').classList.remove('hidden-section');
+            document.getElementById('filter-jenjang').classList.remove('hidden-section');
+            window.loadAllMateri('tk'); 
+        } else {
+            window.loadAllMateri(userData.jenjang);
         }
-        container.innerHTML += `<div class="p-8 card-materi border">
-          <div onclick="openPopup('${jenjang}', ${index})">
-            <span class="bg-blue-50 text-blue-600 text-[10px] font-black px-2 py-1 rounded-md uppercase">${jenjang}</span>
-            <h3 class="font-bold text-slate-800 mt-4">${item.judul}</h3>
-            <p class="text-sm text-slate-400 line-clamp-2 mt-2">${item.isi}</p>
-          </div>
-          ${actionButtons}
-        </div>`;
-      });
     }
 
-    function editMateri(jenjang, index) {
-      const item = allMateri[jenjang][index];
-      document.getElementById('m-id').value = item.row;
-      document.getElementById('m-judul').value = item.judul;
-      document.getElementById('m-isi').value = item.isi;
-      document.getElementById('m-jenjang').value = jenjang;
-      document.getElementById('m-link').value = item.link;
-      document.getElementById('form-materi-title').innerHTML = `<span class="p-2 bg-blue-100 rounded-lg text-blue-600">✏️</span> Edit Materi`;
-      document.getElementById('btn-cancel-edit').classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function resetFormMateri() {
-      document.getElementById('m-id').value = '';
-      document.getElementById('m-judul').value = '';
-      document.getElementById('m-isi').value = '';
-      document.getElementById('m-link').value = '';
-      document.getElementById('form-materi-title').innerHTML = `<span class="p-2 bg-orange-100 rounded-lg text-orange-600">📝</span> Tambah Materi Baru`;
-      document.getElementById('btn-cancel-edit').classList.add('hidden');
-    }
-
-    function deleteMateri(jenjang, index) {
-      if(confirm("Hapus materi ini?")) {
-        google.script.run.withSuccessHandler(() => {
-          alert("Materi dihapus!");
-          refreshData();
-        }).deleteMateriOnSheet(allMateri[jenjang][index].row);
-      }
-    }
-
-    function handleUpload() {
-      const payload = {
-        id: document.getElementById('m-id').value,
-        judul: document.getElementById('m-judul').value,
-        isi: document.getElementById('m-isi').value,
-        jenjang: document.getElementById('m-jenjang').value,
-        link: document.getElementById('m-link').value
-      };
-      if(!payload.judul) return alert("Isi judul!");
-      google.script.run.withSuccessHandler(() => {
-        alert("Berhasil!");
-        resetFormMateri();
-        refreshData();
-      }).uploadMateri(payload);
-    }
-
-    function refreshData() {
-      document.getElementById('content-section').classList.remove('hidden-section');
-      document.getElementById('admin-log-section').classList.add('hidden-section');
-      google.script.run.withSuccessHandler(data => {
-        allMateri = data;
-        const targetJenjang = (userData.role === 'siswa') ? userData.jenjang : 'tk';
-        renderMateri(targetJenjang);
-      }).getMateriData(userData.jenjang, userData.role);
-    }
-
-    function showAdminLog() {
-      document.getElementById('admin-log-section').classList.remove('hidden-section');
-      document.getElementById('content-section').classList.add('hidden-section');
-      google.script.run.withSuccessHandler(logs => {
-        const body = document.getElementById('log-table-body');
-        body.innerHTML = '';
-        logs.forEach(log => {
-          body.innerHTML += `<tr>
-            <td class="p-4">${log.tanggal}</td>
-            <td class="p-4 font-bold">${log.nama}</td>
-            <td class="p-4">${log.sekolah}</td>
-            <td class="p-4 uppercase text-xs font-black">${log.jenjang}</td>
-            <td class="p-4">${log.judul}</td>
-            <td class="p-4 font-bold">${log.durasi}</td>
-          </tr>`;
+    // --- MANAJEMEN MATERI (REALTIME) ---
+    window.loadAllMateri = function(jenjang) {
+        const materiRef = ref(db, 'materi/' + jenjang);
+        onValue(materiRef, (snapshot) => {
+            const data = snapshot.val();
+            renderMateri(data, jenjang);
         });
-      }).getAktivitasLogs();
     }
 
-    function handleAddUser() {
-      const data = {
-        nama: document.getElementById('new-user-nama').value,
-        sekolah: document.getElementById('new-user-sekolah').value,
-        user: document.getElementById('new-user-user').value,
-        pass: document.getElementById('new-user-pass').value,
-        role: document.getElementById('new-user-role').value
-      };
-      google.script.run.withSuccessHandler(() => {
-        alert("User ditambahkan!");
-        document.getElementById('new-user-nama').value = '';
-        document.getElementById('new-user-sekolah').value = '';
-        document.getElementById('new-user-user').value = '';
-        document.getElementById('new-user-pass').value = '';
-      }).addNewUser(data);
-    }
+    function renderMateri(data, jenjang) {
+        const container = document.getElementById('materi-container');
+        container.innerHTML = '';
+        
+        if(!data) {
+            container.innerHTML = `<div class="col-span-full py-20 text-center"><p class="text-slate-400 font-medium">Belum ada materi untuk jenjang ${jenjang.toUpperCase()}</p></div>`;
+            return;
+        }
 
-    function openPopup(jenjang, index) {
-      const item = allMateri[jenjang][index];
-      currentMateriJudul = item.judul;
-      startTime = new Date(); 
-      document.getElementById('modalTitle').innerText = item.judul;
-      document.getElementById('modalDescription').innerText = item.isi;
-      const media = document.getElementById('modalMedia');
-      let url = item.link.trim();
-      if (url.includes('youtube.com') || url.includes('youtu.be')) {
-        let videoId = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop().split('?')[0];
-        media.innerHTML = `<div class="video-container"><iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" allowfullscreen></iframe></div>`;
-      } else {
-        media.innerHTML = `<iframe src="${item.link}" class="w-full h-[550px] border rounded-3xl bg-white"></iframe>`;
-      }
-      myModal.show();
-    }
-
-    document.getElementById('materiModal').addEventListener('hidden.bs.modal', function () {
-      const durasi = Math.round((new Date() - startTime) / 1000);
-      document.getElementById('modalMedia').innerHTML = '';
-      if(userData && userData.role === 'siswa') {
-        google.script.run.logDurasi({
-          nama: userData.nama,
-          sekolah: userData.sekolah,
-          jenjang: userData.jenjang,
-          judul: currentMateriJudul,
-          durasi: durasi + " detik"
+        Object.keys(data).forEach(key => {
+            const item = data[key];
+            const card = document.createElement('div');
+            card.className = 'p-8 card-materi';
+            card.innerHTML = `
+                <div class="flex-grow" onclick="window.openMateri('${key}', '${jenjang}')">
+                    <span class="bg-blue-50 text-blue-600 text-[10px] font-black px-2 py-1 rounded-md uppercase">${jenjang}</span>
+                    <h3 class="font-bold text-slate-800 mt-4 leading-tight">${item.judul}</h3>
+                    <p class="text-sm text-slate-400 mt-3 line-clamp-3">${item.isi || ''}</p>
+                </div>
+                ${userData.role !== 'siswa' ? `
+                <div class="mt-6 pt-4 border-t flex justify-end">
+                    <button onclick="window.delMateri('${key}', '${jenjang}')" class="text-red-500 font-bold text-xs hover:bg-red-50 px-3 py-2 rounded-xl transition-colors">HAPUS MATERI</button>
+                </div>` : ''}
+            `;
+            container.appendChild(card);
         });
-      }
+    }
+
+    // --- SIMPAN MATERI BARU (GURU) ---
+    document.getElementById('btn-save-materi').onclick = async () => {
+        const j = document.getElementById('m-jenjang').value;
+        const judul = document.getElementById('m-judul').value.trim();
+        const isi = document.getElementById('m-isi').value.trim();
+        const link = document.getElementById('m-link').value.trim();
+
+        if(!judul || !link) return alert("Mohon isi Judul dan Link Materi!");
+
+        try {
+            await push(ref(db, 'materi/' + j), { judul, isi, link });
+            alert("Materi berhasil dipublikasikan!");
+            document.getElementById('m-judul').value = '';
+            document.getElementById('m-isi').value = '';
+            document.getElementById('m-link').value = '';
+        } catch (e) {
+            alert("Gagal menyimpan: " + e.message);
+        }
+    };
+
+    // --- MODAL & LOGGING DURASI ---
+    window.openMateri = async (id, jenjang) => {
+        const snapshot = await get(ref(db, `materi/${jenjang}/${id}`));
+        const item = snapshot.val();
+        currentMateriJudul = item.judul;
+        startTime = new Date();
+
+        document.getElementById('modalTitle').innerText = item.judul;
+        document.getElementById('modalDescription').innerText = item.isi || 'Tidak ada deskripsi.';
+        
+        const media = document.getElementById('modalMedia');
+        let url = item.link;
+        
+        if (url.includes('youtube.com') || url.includes('youtu.be')) {
+            let videoId = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop().split('?')[0];
+            media.innerHTML = `<div class="video-container"><iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>`;
+        } else {
+            media.innerHTML = `<iframe src="${url}" class="w-full h-[500px] border rounded-3xl bg-slate-100"></iframe>`;
+        }
+        myModal.show();
+    };
+
+    // Log saat tutup modal (untuk memantau keaktifan belajar siswa)
+    document.getElementById('materiModal').addEventListener('hidden.bs.modal', () => {
+        if(userData && userData.role === 'siswa') {
+            const durasi = Math.round((new Date() - startTime) / 1000);
+            push(ref(db, 'logs'), {
+                nama: userData.nama,
+                sekolah: userData.sekolah,
+                materi: currentMateriJudul,
+                durasi: durasi + " detik",
+                waktu: new Date().toLocaleString('id-ID')
+            });
+        }
+        document.getElementById('modalMedia').innerHTML = ''; // Hentikan video
     });
 
-    function handleLogout() {
-      if(confirm("Logout?")) {
-        document.getElementById('main-section').classList.add('hidden-section');
-        document.getElementById('login-section').classList.remove('hidden-section');
-        document.getElementById('user').value = '';
-        document.getElementById('pass').value = '';
-        document.getElementById('btn-login').innerText = "MASUK SEKARANG";
-        userData = null;
-      }
+    window.delMateri = (id, jenjang) => {
+        if(confirm("Hapus materi ini secara permanen?")) {
+            remove(ref(db, `materi/${jenjang}/${id}`));
+        }
     }
+
+    document.getElementById('btn-logout').onclick = () => location.reload();
   </script>
 </body>
 </html>
