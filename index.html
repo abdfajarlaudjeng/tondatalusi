@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Portal - Kombel Tonda Talusi</title>
+    <title>Portal Edukasi - Kombel Tonda Talusi</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, sans-serif; }
         .hidden-section { display: none !important; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px; background: #000; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .card-materi { transition: all 0.3s ease; cursor: pointer; background: white; border-radius: 20px; border: 1px solid #e2e8f0; height: 100%; display: flex; flex-direction: column; position: relative; }
-        .card-materi:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1); border-color: #3b82f6; }
-        @media print { .no-print { display: none !important; } }
+        .card-materi { transition: all 0.3s ease; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
+        .card-materi:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1); }
+        @media print { .no-print { display: none !important; } .print-only { display: block !important; } }
+        .print-only { display: none; }
     </style>
 </head>
 <body class="p-4 bg-slate-100 min-h-screen">
@@ -22,10 +21,11 @@
         <div class="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-2xl border border-white">
             <div class="text-center mb-8">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Lambang_Kabupaten_Donggala_%282015-sekarang%29.png" class="h-16 mx-auto mb-4">
-                <h2 class="text-2xl font-black text-slate-800 uppercase text-center">Admin Portal</h2>
+                <h2 class="text-2xl font-black text-slate-800 uppercase">Portal Belajar</h2>
+                <p class="text-slate-500 text-sm">Kombel Tonda Talusi - Donggala</p>
             </div>
             <div class="space-y-4">
-                <input type="text" id="user" placeholder="Username Admin" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="text" id="user" placeholder="Username" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
                 <input type="password" id="pass" placeholder="Password" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
                 <button id="btn-login" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-2xl font-bold transition-all">MASUK</button>
             </div>
@@ -41,98 +41,88 @@
                     <p id="user-info" class="text-blue-600 font-bold text-[10px] uppercase"></p>
                 </div>
             </div>
-            <div class="flex gap-2">
-                <button onclick="showPanel('materi')" class="bg-slate-100 px-4 py-2 rounded-xl font-bold text-sm">Materi</button>
-                <button id="nav-user" onclick="showPanel('user-mgmt')" class="bg-slate-100 px-4 py-2 rounded-xl font-bold text-sm hidden-section">Manajemen User</button>
-                <button id="nav-log" onclick="showPanel('logs')" class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl font-bold text-sm hidden-section">Log Aktivitas</button>
+            <div class="flex gap-2 flex-wrap justify-center">
+                <button onclick="showPanel('materi')" class="bg-slate-100 px-4 py-2 rounded-xl font-bold text-sm">📚 Materi</button>
+                <button id="nav-tugas-siswa" onclick="showPanel('upload-tugas')" class="bg-orange-50 text-orange-600 px-4 py-2 rounded-xl font-bold text-sm hidden-section">📤 Kirim Tugas</button>
+                <button id="nav-penilaian" onclick="showPanel('penilaian')" class="bg-emerald-50 text-emerald-600 px-4 py-2 rounded-xl font-bold text-sm hidden-section">📋 Penilaian</button>
+                <button id="nav-user" onclick="showPanel('user-mgmt')" class="bg-slate-100 px-4 py-2 rounded-xl font-bold text-sm hidden-section">👥 Users</button>
                 <button id="btn-logout" class="bg-red-50 text-red-600 px-4 py-2 rounded-xl font-bold text-sm">Keluar</button>
             </div>
         </div>
 
         <div id="panel-materi">
-            <div id="guru-menu" class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 no-print border-2 border-dashed border-slate-200">
+            <div id="guru-menu" class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 no-print border-2 border-dashed border-slate-200 hidden-section">
                 <h3 class="font-bold text-slate-800 mb-6">📝 Posting Materi Baru</h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                     <input type="text" id="m-judul" placeholder="Judul Materi" class="border p-3 rounded-xl bg-slate-50 outline-none">
-                    <select id="m-jenjang" class="border p-3 rounded-xl bg-slate-50 outline-none">
-                        <option value="tk">Jenjang TK</option>
-                        <option value="sd">Jenjang SD</option>
-                        <option value="smp">Jenjang SMP</option>
+                    <select id="m-mapel" class="border p-3 rounded-xl bg-slate-50 outline-none">
+                        <option value="B. Indonesia">B. Indonesia</option>
+                        <option value="Matematika">Matematika</option>
+                        <option value="IPA">IPA</option>
+                        <option value="Informatika">Informatika</option>
                     </select>
                     <input type="text" id="m-link" placeholder="Link YouTube/Drive" class="border p-3 rounded-xl bg-slate-50 outline-none">
                     <button id="btn-save" class="bg-emerald-600 text-white rounded-xl font-bold">Simpan Materi</button>
                 </div>
-                <textarea id="m-isi" placeholder="Deskripsi..." class="w-full border p-4 rounded-xl bg-slate-50 outline-none" rows="2"></textarea>
+                <textarea id="m-isi" placeholder="Deskripsi materi atau instruksi tugas..." class="w-full border p-4 rounded-xl bg-slate-50 outline-none" rows="2"></textarea>
             </div>
-            <div id="filter-jenjang" class="flex gap-3 mb-8 overflow-x-auto">
-                <button onclick="loadMateri('tk')" class="px-6 py-2 bg-white text-orange-500 border rounded-xl font-bold">TK</button>
-                <button onclick="loadMateri('sd')" class="px-6 py-2 bg-white text-emerald-600 border rounded-xl font-bold">SD</button>
-                <button onclick="loadMateri('smp')" class="px-6 py-2 bg-white text-blue-700 border rounded-xl font-bold">SMP</button>
-            </div>
+
+            <div id="filter-mapel" class="flex gap-3 mb-8 overflow-x-auto no-print">
+                </div>
             <div id="materi-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
 
-        <div id="panel-user-mgmt" class="hidden-section">
-            <div class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 border-2 border-blue-100">
-                <h3 class="font-bold text-slate-800 mb-6">👤 Tambah Pengguna Baru</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
-                    <input type="text" id="u-user" placeholder="Username" class="border p-3 rounded-xl bg-slate-50">
-                    <input type="text" id="u-pass" placeholder="Password" class="border p-3 rounded-xl bg-slate-50">
-                    <input type="text" id="u-nama" placeholder="Nama Lengkap" class="border p-3 rounded-xl bg-slate-50">
-                    <input type="text" id="u-sekolah" placeholder="Asal Sekolah" class="border p-3 rounded-xl bg-slate-50">
-                    <select id="u-role" class="border p-3 rounded-xl bg-slate-50">
-                        <option value="siswa">Siswa</option>
-                        <option value="guru">Guru</option>
-                        <option value="admin">Admin</option>
+        <div id="panel-upload-tugas" class="hidden-section">
+            <div class="bg-white p-8 rounded-[2rem] shadow-sm max-w-2xl mx-auto">
+                <h3 class="font-bold text-slate-800 mb-6">📤 Kirim Tugas Harian</h3>
+                <div class="space-y-4">
+                    <select id="t-mapel" class="w-full border p-4 rounded-xl bg-slate-50">
+                        <option value="B. Indonesia">B. Indonesia</option>
+                        <option value="Matematika">Matematika</option>
+                        <option value="IPA">IPA</option>
+                        <option value="Informatika">Informatika</option>
                     </select>
-                    <select id="u-jenjang" class="border p-3 rounded-xl bg-slate-50">
-                        <option value="tk">TK</option>
-                        <option value="sd">SD</option>
-                        <option value="smp">SMP</option>
-                    </select>
-                </div>
-                <button id="btn-add-user" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold w-full md:w-auto">Tambah & Simpan User</button>
-            </div>
-
-            <div class="bg-white p-8 rounded-[2rem] shadow-sm">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold">Daftar Akun Pengguna</h3>
-                    <button onclick="exportData('users')" class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-xl text-xs font-bold uppercase">📥 Ekspor Data Akun</button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-slate-50">
-                            <tr><th class="p-3">Username</th><th class="p-3">Password</th><th class="p-3">Nama</th><th class="p-3">Sekolah</th><th class="p-3">Role</th><th class="p-3">Aksi</th></tr>
-                        </thead>
-                        <tbody id="user-table"></tbody>
-                    </table>
+                    <input type="text" id="t-judul" placeholder="Judul Tugas (Contoh: Latihan 1)" class="w-full border p-4 rounded-xl bg-slate-50">
+                    <input type="text" id="t-link" placeholder="Link Tugas (Google Drive/Canva/Lainnya)" class="w-full border p-4 rounded-xl bg-slate-50">
+                    <textarea id="t-catatan" placeholder="Catatan tambahan untuk guru..." class="w-full border p-4 rounded-xl bg-slate-50" rows="3"></textarea>
+                    <button id="btn-kirim-tugas" class="w-full bg-orange-500 text-white p-4 rounded-xl font-bold shadow-lg">KIRIM TUGAS SEKARANG</button>
                 </div>
             </div>
         </div>
 
-        <div id="panel-logs" class="hidden-section">
-            <div class="bg-white p-8 rounded-[2rem] shadow-sm">
+        <div id="panel-penilaian" class="hidden-section">
+            <div class="bg-white p-8 rounded-[2rem] shadow-sm no-print">
                 <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold">Aktivitas Belajar Siswa</h3>
-                    <button onclick="exportData('logs')" class="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-xl text-xs font-bold uppercase">📥 Ekspor Log Aktivitas</button>
+                    <h3 class="font-bold">Daftar Tugas Masuk</h3>
+                    <button onclick="window.print()" class="bg-slate-800 text-white px-4 py-2 rounded-xl text-xs">🖨️ Cetak Laporan Nilai</button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
                         <thead class="bg-slate-50">
-                            <tr><th class="p-3">Waktu</th><th class="p-3">Nama</th><th class="p-3">Materi</th><th class="p-3">Durasi</th></tr>
+                            <tr><th class="p-3">Siswa</th><th class="p-3">Mapel</th><th class="p-3">Judul Tugas</th><th class="p-3">Tugas</th><th class="p-3">Nilai</th><th class="p-3">Aksi</th></tr>
                         </thead>
-                        <tbody id="log-table"></tbody>
+                        <tbody id="tabel-penilaian"></tbody>
                     </table>
                 </div>
             </div>
+        </div>
+        
+        <div id="panel-user-mgmt" class="hidden-section">
+            <p class="p-4 bg-blue-50 rounded-xl">Gunakan Panel ini untuk menambah Guru & Siswa.</p>
         </div>
     </div>
 
-    <div class="modal fade" id="materiModal" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal fade" id="materiModal" tabindex="-1">
         <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content rounded-[2.5rem] border-0 overflow-hidden">
-                <div class="modal-header border-0 px-8 pt-8"><h5 class="modal-title font-black" id="modalTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-                <div class="modal-body p-8"><div id="modalDescription" class="mb-4 text-slate-600"></div><div id="modalMedia"></div></div>
+            <div class="modal-content rounded-[2.5rem] border-0">
+                <div class="modal-header border-0 px-8 pt-8">
+                    <h5 class="modal-title font-black" id="modalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-8">
+                    <div id="modalDescription" class="mb-4 text-slate-600"></div>
+                    <div id="modalMedia"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -141,7 +131,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, push, get, child, remove, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, push, get, remove, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyB7b8kFlpUrRevwEl0-onf-anerlJGRLPM",
@@ -149,8 +139,7 @@
             projectId: "datagtkdonggala-7244e",
             databaseURL: "https://datagtkdonggala-7244e-default-rtdb.asia-southeast1.firebasedatabase.app",
             storageBucket: "datagtkdonggala-7244e.appspot.com",
-            messagingSenderId: "482000925080",
-            appId: "1:482000925080:web:1f97a41eead6b969b37bed"
+            databaseURL: "https://datagtkdonggala-7244e-default-rtdb.asia-southeast1.firebasedatabase.app"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -158,187 +147,155 @@
         const myModal = new bootstrap.Modal(document.getElementById('materiModal'));
 
         let userData = null;
-        let startTime, currentMateriJudul;
+        const MAPELS = ["B. Indonesia", "Matematika", "IPA", "Informatika", "SBK", "PJOK"];
 
         // --- NAVIGATION ---
-        window.showPanel = (panelId) => {
-            ['panel-materi', 'panel-user-mgmt', 'panel-logs'].forEach(id => {
-                document.getElementById(id).classList.add('hidden-section');
-            });
-            document.getElementById('panel-' + panelId).classList.remove('hidden-section');
+        window.showPanel = (id) => {
+            const panels = ['panel-materi', 'panel-upload-tugas', 'panel-penilaian', 'panel-user-mgmt'];
+            panels.forEach(p => document.getElementById(p).classList.add('hidden-section'));
+            document.getElementById('panel-' + id).classList.remove('hidden-section');
         };
 
         // --- LOGIN ---
         document.getElementById('btn-login').onclick = async () => {
             const u = document.getElementById('user').value;
             const p = document.getElementById('pass').value;
-            const snapshot = await get(ref(db, `users/${u}`));
+            const snap = await get(ref(db, `users/${u}`));
             
-            if (snapshot.exists() && snapshot.val().password === p) {
-                userData = { ...snapshot.val(), username: u };
+            if (snap.exists() && snap.val().password === p) {
+                userData = { ...snap.val(), username: u };
                 document.getElementById('login-section').classList.add('hidden-section');
                 document.getElementById('main-section').classList.remove('hidden-section');
-                document.getElementById('user-info').innerText = `${userData.nama} • ${userData.sekolah}`;
-                
-                if(userData.role === 'admin' || userData.role === 'guru') {
-                    document.getElementById('guru-menu').classList.remove('hidden-section');
-                    if(userData.role === 'admin') {
-                        document.getElementById('nav-user').classList.remove('hidden-section');
-                        document.getElementById('nav-log').classList.remove('hidden-section');
-                        loadUsers();
-                        loadLogs();
-                    }
-                    window.loadMateri('tk');
-                } else {
-                    window.loadMateri(userData.jenjang);
-                }
-            } else { alert("Akses Ditolak!"); }
+                document.getElementById('user-info').innerText = `${userData.nama} | ${userData.role} | Kelas ${userData.jenjang || '-'}`;
+
+                setupRoleAccess();
+                initFilterMapel();
+                loadMateri(MAPELS[0]);
+            } else { alert("Login Salah!"); }
         };
 
-        // --- MANAJEMEN MATERI ---
-        window.loadMateri = (jenjang) => {
-            onValue(ref(db, `materi/${jenjang}`), (snapshot) => {
-                const data = snapshot.val();
+        function setupRoleAccess() {
+            if (userData.role === 'admin' || userData.role === 'guru') {
+                document.getElementById('guru-menu').classList.remove('hidden-section');
+                document.getElementById('nav-penilaian').classList.remove('hidden-section');
+                loadDaftarTugas();
+                if(userData.role === 'admin') document.getElementById('nav-user').classList.remove('hidden-section');
+            } else {
+                document.getElementById('nav-tugas-siswa').classList.remove('hidden-section');
+            }
+        }
+
+        // --- MATERI ---
+        function initFilterMapel() {
+            const container = document.getElementById('filter-mapel');
+            container.innerHTML = '';
+            MAPELS.forEach(m => {
+                const btn = document.createElement('button');
+                btn.className = "px-6 py-2 bg-white border rounded-xl font-bold text-slate-700 whitespace-nowrap";
+                btn.innerText = m;
+                btn.onclick = () => loadMateri(m);
+                container.appendChild(btn);
+            });
+        }
+
+        window.loadMateri = (mapel) => {
+            // Path dibedakan per jenjang (Kelas) agar siswa hanya melihat kelasnya
+            const path = `materi_v2/${userData.jenjang || 'umum'}/${mapel}`;
+            onValue(ref(db, path), (snap) => {
+                const data = snap.val();
                 const container = document.getElementById('materi-container');
                 container.innerHTML = '';
-                if(!data) return;
+                if(!data) { container.innerHTML = `<p class='p-8'>Belum ada materi ${mapel}</p>`; return; }
+                
                 Object.keys(data).forEach(key => {
                     const item = data[key];
-                    const card = document.createElement('div');
-                    card.className = 'p-8 card-materi';
-                    card.innerHTML = `
-                        <div onclick="window.openMateri('${key}', '${jenjang}')">
-                            <span class="text-[10px] font-bold text-blue-600 uppercase">${jenjang}</span>
-                            <h3 class="font-bold mt-2">${item.judul}</h3>
-                        </div>
-                        ${userData.role !== 'siswa' ? `<button onclick="window.delMateri('${key}', '${jenjang}')" class="text-red-500 text-xs mt-4">Hapus</button>` : ''}
-                    `;
-                    container.appendChild(card);
+                    container.innerHTML += `
+                        <div class="p-6 card-materi border-l-4 border-blue-500">
+                            <span class="text-[10px] font-bold text-blue-500 uppercase">${mapel}</span>
+                            <h3 class="font-bold text-lg mb-3">${item.judul}</h3>
+                            <button onclick="window.viewMateri('${key}', '${mapel}')" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">Buka Materi</button>
+                        </div>`;
                 });
             });
         };
 
         document.getElementById('btn-save').onclick = async () => {
+            const mapel = document.getElementById('m-mapel').value;
             const payload = {
                 judul: document.getElementById('m-judul').value,
-                jenjang: document.getElementById('m-jenjang').value,
                 link: document.getElementById('m-link').value,
-                isi: document.getElementById('m-isi').value
+                isi: document.getElementById('m-isi').value,
+                guru: userData.nama
             };
-            await push(ref(db, `materi/${payload.jenjang}`), payload);
-            alert("Materi Tersimpan!");
+            await push(ref(db, `materi_v2/${userData.jenjang}/${mapel}`), payload);
+            alert("Materi Berhasil Diunggah!");
         };
 
-        // --- MANAJEMEN USER (ADMIN ONLY) ---
-        function loadUsers() {
-            onValue(ref(db, 'users'), (snapshot) => {
-                const users = snapshot.val();
-                const table = document.getElementById('user-table');
-                table.innerHTML = '';
-                Object.keys(users).forEach(uID => {
-                    const u = users[uID];
-                    table.innerHTML += `
-                        <tr class="border-b">
-                            <td class="p-3 font-bold">${uID}</td>
-                            <td class="p-3">${u.password}</td>
-                            <td class="p-3">${u.nama}</td>
-                            <td class="p-3">${u.sekolah}</td>
-                            <td class="p-3"><span class="px-2 py-1 rounded-lg text-[10px] bg-slate-100 font-bold uppercase">${u.role}</span></td>
-                            <td class="p-3"><button onclick="window.delUser('${uID}')" class="text-red-500">Hapus</button></td>
-                        </tr>`;
-                });
-            });
-        }
-
-        document.getElementById('btn-add-user').onclick = async () => {
-            const uID = document.getElementById('u-user').value;
-            const data = {
-                password: document.getElementById('u-pass').value,
-                nama: document.getElementById('u-nama').value,
-                sekolah: document.getElementById('u-sekolah').value,
-                role: document.getElementById('u-role').value,
-                jenjang: document.getElementById('u-jenjang').value
-            };
-            if(!uID || !data.password) return alert("Username & Password Wajib!");
-            await set(ref(db, `users/${uID}`), data);
-            alert("User Berhasil Ditambahkan!");
-        };
-
-        window.delUser = (uID) => confirm("Hapus user ini?") && remove(ref(db, `users/${uID}`));
-
-        // --- LOGS (ADMIN ONLY) ---
-        function loadLogs() {
-            onValue(ref(db, 'logs'), (snapshot) => {
-                const logs = snapshot.val();
-                const table = document.getElementById('log-table');
-                table.innerHTML = '';
-                if(!logs) return;
-                Object.keys(logs).reverse().forEach(id => {
-                    const l = logs[id];
-                    table.innerHTML += `<tr class="border-b"><td class="p-3 text-xs">${l.waktu}</td><td class="p-3 font-bold">${l.nama}</td><td class="p-3">${l.materi}</td><td class="p-3 text-emerald-600 font-bold">${l.durasi}</td></tr>`;
-                });
-            });
-        }
-
-        // --- EKSPOR DATA KE CSV ---
-        window.exportData = async (path) => {
-            const snap = await get(ref(db, path));
-            const data = snap.val();
-            if(!data) return alert("Data Kosong!");
-            
-            let csvContent = "data:text/csv;charset=utf-8,";
-            const keys = Object.keys(data);
-            
-            // Header
-            csvContent += Object.keys(data[keys[0]]).join(",") + "\n";
-            
-            // Body
-            keys.forEach(k => {
-                const row = Object.values(data[k]).join(",");
-                csvContent += row + "\n";
-            });
-
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `data_${path}_donggala.csv`);
-            document.body.appendChild(link);
-            link.click();
-        };
-
-        // --- MODAL & PLAYER ---
-        window.openMateri = async (id, jenjang) => {
-            const snap = await get(ref(db, `materi/${jenjang}/${id}`));
+        window.viewMateri = async (id, mapel) => {
+            const snap = await get(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
             const item = snap.val();
-            currentMateriJudul = item.judul;
-            startTime = new Date();
             document.getElementById('modalTitle').innerText = item.judul;
             document.getElementById('modalDescription').innerText = item.isi;
             const media = document.getElementById('modalMedia');
             if (item.link.includes('youtube')) {
                 let vId = item.link.split('v=')[1]?.split('&')[0] || item.link.split('/').pop();
-                media.innerHTML = `<div class="video-container"><iframe src="https://www.youtube.com/embed/${vId}?autoplay=1"></iframe></div>`;
-            } else {
-                media.innerHTML = `<iframe src="${item.link}" class="w-full h-[500px] border rounded-2xl"></iframe>`;
+                media.innerHTML = `<div class="video-container"><iframe src="https://www.youtube.com/embed/${vId}"></iframe></div>`;
+            } else if (item.link) {
+                media.innerHTML = `<a href="${item.link}" target="_blank" class="text-blue-600 underline text-center block p-10 bg-slate-50 rounded-2xl">Klik untuk Buka Link Materi/Tugas</a>`;
             }
             myModal.show();
         };
 
-        document.getElementById('materiModal').addEventListener('hidden.bs.modal', () => {
-            if(userData.role === 'siswa') {
-                const durasi = Math.round((new Date() - startTime) / 1000);
-                push(ref(db, 'logs'), {
-                    nama: userData.nama,
-                    materi: currentMateriJudul,
-                    durasi: durasi + " detik",
-                    waktu: new Date().toLocaleString('id-ID')
-                });
-            }
-            document.getElementById('modalMedia').innerHTML = '';
-        });
+        // --- TUGAS SISWA ---
+        document.getElementById('btn-kirim-tugas').onclick = async () => {
+            const payload = {
+                namaSiswa: userData.nama,
+                kelas: userData.jenjang,
+                sekolah: userData.sekolah,
+                mapel: document.getElementById('t-mapel').value,
+                judulTugas: document.getElementById('t-judul').value,
+                linkTugas: document.getElementById('t-link').value,
+                catatan: document.getElementById('t-catatan').value,
+                waktu: new Date().toLocaleString('id-ID'),
+                nilai: "-"
+            };
+            await push(ref(db, `tugas_masuk`), payload);
+            alert("Tugas Terkirim! Menunggu penilaian Guru.");
+            showPanel('materi');
+        };
 
-        window.delMateri = (id, jenjang) => confirm("Hapus?") && remove(ref(db, `materi/${jenjang}/${id}`));
+        // --- PENILAIAN GURU ---
+        function loadDaftarTugas() {
+            onValue(ref(db, `tugas_masuk`), (snap) => {
+                const data = snap.val();
+                const table = document.getElementById('tabel-penilaian');
+                table.innerHTML = '';
+                if(!data) return;
+
+                Object.keys(data).forEach(id => {
+                    const t = data[id];
+                    table.innerHTML += `
+                        <tr class="border-b">
+                            <td class="p-3"><b>${t.namaSiswa}</b><br><small>${t.kelas}</small></td>
+                            <td class="p-3">${t.mapel}</td>
+                            <td class="p-3">${t.judulTugas}</td>
+                            <td class="p-3"><a href="${t.linkTugas}" target="_blank" class="text-blue-500 underline font-bold">Lihat Tugas</a></td>
+                            <td class="p-3 font-bold text-blue-600">${t.nilai}</td>
+                            <td class="p-3">
+                                <button onclick="window.beriNilai('${id}')" class="bg-blue-50 text-blue-600 px-3 py-1 rounded text-xs">Beri Nilai</button>
+                            </td>
+                        </tr>`;
+                });
+            });
+        }
+
+        window.beriNilai = (id) => {
+            const skor = prompt("Masukkan Nilai (0-100):");
+            if(skor) update(ref(db, `tugas_masuk/${id}`), { nilai: skor });
+        };
+
         document.getElementById('btn-logout').onclick = () => location.reload();
+
     </script>
 </body>
 </html>
