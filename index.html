@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Super - Kombel Tonda Talusi</title>
+    <title>Portal Edukasi - Kombel Tonda Talusi</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -11,8 +11,9 @@
         body { background-color: #f1f5f9; font-family: 'Segoe UI', Tahoma, sans-serif; }
         .hidden-section { display: none !important; }
         .card-materi { transition: all 0.3s ease; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
+        .card-materi:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.05); }
         .btn-action { transition: all 0.2s; }
-        .btn-action:hover { transform: scale(1.05); }
+        .btn-action:active { transform: scale(0.95); }
     </style>
 </head>
 <body class="p-4 bg-slate-100 min-h-screen">
@@ -21,13 +22,12 @@
         <div class="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-2xl border border-white">
             <div class="text-center mb-8">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Lambang_Kabupaten_Donggala_%282015-sekarang%29.png" class="h-16 mx-auto mb-4">
-                <h2 class="text-2xl font-black text-slate-800 uppercase">Super Portal</h2>
-                <p class="text-slate-500 text-sm">Kombel Tonda Talusi - Donggala</p>
+                <h2 class="text-2xl font-black text-slate-800 uppercase leading-tight">Portal Belajar<br>Tonda Talusi</h2>
             </div>
             <div class="space-y-4">
                 <input type="text" id="user" placeholder="Username" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
                 <input type="password" id="pass" placeholder="Password" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
-                <button id="btn-login" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-2xl font-bold transition-all">MASUK</button>
+                <button id="btn-login" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-2xl font-bold transition-all shadow-lg">MASUK</button>
             </div>
         </div>
     </div>
@@ -42,26 +42,33 @@
                 </div>
             </div>
             <div class="flex gap-2 flex-wrap justify-center">
-                <button onclick="showPanel('materi')" class="bg-slate-100 px-4 py-2 rounded-xl font-bold text-sm">📚 Materi</button>
-                <button id="nav-penilaian" onclick="showPanel('penilaian')" class="bg-emerald-50 text-emerald-600 px-4 py-2 rounded-xl font-bold text-sm hidden-section">📋 Penilaian</button>
-                <button id="nav-admin" onclick="showPanel('admin-panel')" class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl font-bold text-sm hidden-section">⚙️ Admin Control</button>
+                <button onclick="showPanel('materi')" class="bg-slate-100 px-4 py-2 rounded-xl font-bold text-sm btn-action">📚 Materi</button>
+                <button id="nav-penilaian" onclick="showPanel('penilaian')" class="bg-emerald-50 text-emerald-600 px-4 py-2 rounded-xl font-bold text-sm hidden-section btn-action">📋 Penilaian</button>
+                <button id="nav-admin" onclick="showPanel('admin-panel')" class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl font-bold text-sm hidden-section btn-action">⚙️ Admin</button>
                 <button id="btn-logout" class="bg-red-50 text-red-600 px-4 py-2 rounded-xl font-bold text-sm">Keluar</button>
             </div>
         </div>
 
         <div id="panel-materi">
             <div id="guru-menu" class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 border-2 border-dashed border-slate-200 hidden-section">
-                <h3 class="font-bold text-slate-800 mb-6">📝 Posting Materi Baru</h3>
+                <h3 class="font-bold text-slate-800 mb-6 flex items-center gap-2"><span>📝</span> Posting Materi Baru</h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                     <input type="text" id="m-judul" placeholder="Judul Materi" class="border p-3 rounded-xl bg-slate-50 outline-none">
-                    <select id="m-mapel-select" class="border p-3 rounded-xl bg-slate-50 outline-none">
-                        </select>
+                    <select id="m-mapel-select" class="border p-3 rounded-xl bg-slate-50 outline-none"></select>
+                    <select id="m-jenjang-target" class="border p-3 rounded-xl bg-slate-50 outline-none">
+                        <option value="7">Kelas 7</option>
+                        <option value="8">Kelas 8</option>
+                        <option value="9">Kelas 9</option>
+                        <option value="umum">Umum</option>
+                    </select>
                     <input type="text" id="m-link" placeholder="Link YouTube/Drive" class="border p-3 rounded-xl bg-slate-50 outline-none">
-                    <button id="btn-save" class="bg-emerald-600 text-white rounded-xl font-bold">Simpan Materi</button>
                 </div>
-                <textarea id="m-isi" placeholder="Deskripsi..." class="w-full border p-4 rounded-xl bg-slate-50 outline-none" rows="2"></textarea>
+                <textarea id="m-isi" placeholder="Deskripsi materi atau instruksi..." class="w-full border p-4 rounded-xl bg-slate-50 outline-none mb-4" rows="3"></textarea>
+                <button id="btn-save-materi" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold shadow-md hover:bg-emerald-700 transition-all w-full md:w-auto">Simpan & Publikasikan</button>
             </div>
-            <div id="filter-mapel" class="flex gap-3 mb-8 overflow-x-auto"></div>
+
+            <div id="filter-mapel" class="flex gap-3 mb-8 overflow-x-auto pb-2"></div>
+            
             <div id="materi-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </div>
 
@@ -70,7 +77,7 @@
                 <h3 class="font-bold mb-4 text-indigo-600">🛠️ Manajemen Mata Pelajaran</h3>
                 <div class="flex gap-3 mb-4">
                     <input type="text" id="new-mapel-name" placeholder="Nama Mapel Baru" class="border p-3 rounded-xl bg-slate-50 flex-grow">
-                    <button id="btn-add-mapel" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold">Tambah Mapel</button>
+                    <button id="btn-add-mapel" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold">Tambah</button>
                 </div>
                 <div id="mapel-list" class="flex flex-wrap gap-2"></div>
             </div>
@@ -79,14 +86,13 @@
                 <h3 class="font-bold mb-4">📂 Bulk Data (Excel)</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="p-6 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
-                        <p class="text-sm font-bold mb-3">Upload Data Siswa/Guru (.xlsx)</p>
+                        <p class="text-sm font-bold mb-3">Import Data User (.xlsx)</p>
                         <input type="file" id="excel-file" class="text-xs mb-3 block w-full">
-                        <button onclick="importExcel()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-xs font-bold">Mulai Import Data</button>
-                        <p class="text-[10px] mt-2 text-slate-500">*Format Kolom: username, password, nama, sekolah, role, jenjang</p>
+                        <button onclick="importExcel()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-xs font-bold">Import Sekarang</button>
                     </div>
                     <div class="p-6 bg-slate-50 rounded-2xl flex flex-col justify-center items-center">
-                        <button onclick="exportUsers()" class="bg-emerald-600 text-white px-8 py-4 rounded-2xl font-bold w-full mb-3">Unduh Seluruh Data User</button>
-                        <p class="text-[10px] text-slate-500">Ekspor semua akun aktif ke file Excel</p>
+                        <button onclick="exportUsers()" class="bg-emerald-600 text-white px-8 py-4 rounded-2xl font-bold w-full mb-2">Export Seluruh User</button>
+                        <p class="text-[10px] text-slate-500">Download data akun ke format Excel</p>
                     </div>
                 </div>
             </div>
@@ -110,15 +116,36 @@
         </div>
 
         <div id="panel-penilaian" class="hidden-section">
-             <div class="bg-white p-8 rounded-[2rem] shadow-sm">
-                <h3 class="font-bold mb-6">📋 Daftar Tugas Masuk</h3>
+            <div class="bg-white p-8 rounded-[2rem] shadow-sm">
+                <h3 class="font-bold mb-6">📋 Daftar Tugas Siswa</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
                         <thead class="bg-slate-50">
-                            <tr><th class="p-3">Siswa</th><th class="p-3">Mapel</th><th class="p-3">Tugas</th><th class="p-3">Nilai</th><th class="p-3">Aksi</th></tr>
+                            <tr>
+                                <th class="p-4">Siswa</th>
+                                <th class="p-4">Mapel</th>
+                                <th class="p-4">Tugas</th>
+                                <th class="p-4">Nilai</th>
+                                <th class="p-4">Aksi</th>
+                            </tr>
                         </thead>
                         <tbody id="tabel-penilaian"></tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="materiModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content rounded-[2.5rem] border-0">
+                <div class="modal-header border-0 px-8 pt-8">
+                    <h5 class="modal-title font-black text-2xl" id="modalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-8">
+                    <div id="modalDescription" class="mb-6 text-slate-600 leading-relaxed whitespace-pre-wrap"></div>
+                    <div id="modalMedia"></div>
                 </div>
             </div>
         </div>
@@ -137,11 +164,12 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
+        const modalUI = new bootstrap.Modal(document.getElementById('materiModal'));
 
         let userData = null;
         let MAPELS = [];
 
-        // --- NAVIGATION ---
+        // Navigation
         window.showPanel = (id) => {
             const panels = ['panel-materi', 'panel-penilaian', 'panel-admin-panel'];
             panels.forEach(p => document.getElementById(p).classList.add('hidden-section'));
@@ -153,149 +181,217 @@
             const u = document.getElementById('user').value;
             const p = document.getElementById('pass').value;
             const snap = await get(ref(db, `users/${u}`));
+            
             if (snap.exists() && snap.val().password === p) {
                 userData = { ...snap.val(), username: u };
                 document.getElementById('login-section').classList.add('hidden-section');
                 document.getElementById('main-section').classList.remove('hidden-section');
-                document.getElementById('user-info').innerText = `${userData.nama} | ${userData.role}`;
+                document.getElementById('user-info').innerText = `${userData.nama} | ${userData.role} | Kelas ${userData.jenjang}`;
                 
                 setupRoleAccess();
                 listenMapels();
-            } else { alert("Akses Ditolak!"); }
+            } else { alert("Login gagal! Periksa kembali username/password."); }
         };
 
         function setupRoleAccess() {
             if (userData.role === 'admin' || userData.role === 'guru') {
                 document.getElementById('guru-menu').classList.remove('hidden-section');
                 document.getElementById('nav-penilaian').classList.remove('hidden-section');
+                loadDaftarTugas();
                 if(userData.role === 'admin') document.getElementById('nav-admin').classList.remove('hidden-section');
             }
         }
 
-        // --- MANAJEMEN MAPEL ---
-        function listenMapels() {
-            onValue(ref(db, 'settings/mapels'), (snap) => {
-                MAPELS = snap.val() ? Object.values(snap.val()) : ["Umum"];
-                renderMapelUI();
-            });
-        }
-
-        function renderMapelUI() {
-            // Filter Buttons
-            const filterContainer = document.getElementById('filter-mapel');
-            filterContainer.innerHTML = '';
-            // Select Options for Post
-            const selectMapel = document.getElementById('m-mapel-select');
-            selectMapel.innerHTML = '';
-            // Admin List
-            const adminMapelList = document.getElementById('mapel-list');
-            adminMapelList.innerHTML = '';
-
-            MAPELS.forEach(m => {
-                // Button
-                filterContainer.innerHTML += `<button onclick="window.loadMateri('${m}')" class="px-6 py-2 bg-white border rounded-xl font-bold text-slate-700 whitespace-nowrap btn-action">${m}</button>`;
-                // Select
-                selectMapel.innerHTML += `<option value="${m}">${m}</option>`;
-                // Admin Delete List
-                adminMapelList.innerHTML += `
-                    <div class="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-xl flex items-center gap-3">
-                        <span class="font-bold">${m}</span>
-                        <button onclick="deleteMapel('${m}')" class="text-red-500 font-black">×</button>
-                    </div>`;
-            });
-        }
-
-        document.getElementById('btn-add-mapel').onclick = async () => {
-            const name = document.getElementById('new-mapel-name').value;
-            if(!name) return;
-            await set(ref(db, `settings/mapels/${name}`), name);
-            document.getElementById('new-mapel-name').value = '';
-        };
-
-        window.deleteMapel = async (name) => {
-            if(confirm(`Hapus mapel ${name}?`)) await remove(ref(db, `settings/mapels/${name}`));
-        };
-
-        // --- EXCEL IMPORT/EXPORT ---
-        window.importExcel = () => {
-            const file = document.getElementById('excel-file').files[0];
-            if(!file) return alert("Pilih file excel!");
-
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, {type: 'array'});
-                const sheet = workbook.Sheets[workbook.SheetNames[0]];
-                const json = XLSX.utils.sheet_to_json(sheet);
-
-                for(let row of json) {
-                    if(row.username) {
-                        await set(ref(db, `users/${row.username}`), {
-                            password: row.password || "123",
-                            nama: row.nama || "No Name",
-                            sekolah: row.sekolah || "-",
-                            role: row.role || "siswa",
-                            jenjang: row.jenjang || "-"
-                        });
-                    }
-                }
-                alert("Import Selesai!");
-            };
-            reader.readAsArrayBuffer(file);
-        };
-
-        window.exportUsers = async () => {
-            const snap = await get(ref(db, 'users'));
-            const data = snap.val();
-            const rows = Object.keys(data).map(k => ({ username: k, ...data[k] }));
-            
-            const ws = XLSX.utils.json_to_sheet(rows);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Users");
-            XLSX.writeFile(wb, "Data_User_Donggala.xlsx");
-        };
-
-        // --- MANUAL ADD USER ---
-        document.getElementById('btn-add-user').onclick = async () => {
-            const u = document.getElementById('u-user').value;
+        // --- MANAJEMEN MATERI (CRUD) ---
+        document.getElementById('btn-save-materi').onclick = async () => {
+            const mapel = document.getElementById('m-mapel-select').value;
+            const jenjang = document.getElementById('m-jenjang-target').value;
             const payload = {
-                password: document.getElementById('u-pass').value,
-                nama: document.getElementById('u-nama').value,
-                sekolah: document.getElementById('u-sekolah').value,
-                role: document.getElementById('u-role').value,
-                jenjang: document.getElementById('u-jenjang').value
+                judul: document.getElementById('m-judul').value,
+                link: document.getElementById('m-link').value,
+                isi: document.getElementById('m-isi').value,
+                guru: userData.nama,
+                timestamp: new Date().toISOString()
             };
-            if(!u || !payload.password) return alert("Isi Username & Pass!");
-            await set(ref(db, `users/${u}`), payload);
-            alert("User Berhasil Disimpan!");
+
+            if(!payload.judul || !payload.isi) return alert("Mohon lengkapi judul dan isi materi.");
+            
+            await push(ref(db, `materi_v2/${jenjang}/${mapel}`), payload);
+            alert("Materi berhasil disimpan!");
+            
+            // Clear inputs
+            ['m-judul', 'm-link', 'm-isi'].forEach(id => document.getElementById(id).value = '');
         };
 
         window.loadMateri = (mapel) => {
-            const path = `materi_v2/${userData.jenjang || 'umum'}/${mapel}`;
+            const path = `materi_v2/${userData.jenjang}/${mapel}`;
             onValue(ref(db, path), (snap) => {
                 const container = document.getElementById('materi-container');
-                container.innerHTML = snap.val() ? '' : `<p class="p-8">Materi ${mapel} kosong.</p>`;
-                if(!snap.val()) return;
-                Object.keys(snap.val()).forEach(k => {
-                    const item = snap.val()[k];
+                container.innerHTML = '';
+                const data = snap.val();
+                if(!data) { 
+                    container.innerHTML = `<div class="col-span-full text-center py-20 text-slate-400">Belum ada materi untuk ${mapel} di kelas ${userData.jenjang}</div>`; 
+                    return; 
+                }
+                
+                Object.keys(data).forEach(id => {
+                    const m = data[id];
                     container.innerHTML += `
-                        <div class="p-6 card-materi border-t-4 border-indigo-500">
-                            <span class="text-[10px] font-bold text-indigo-500 uppercase">${mapel}</span>
-                            <h3 class="font-bold text-lg mb-3">${item.judul}</h3>
+                        <div class="p-6 card-materi border-l-4 border-blue-500 shadow-sm relative">
+                            <span class="text-[10px] font-bold text-blue-500 uppercase">${mapel}</span>
+                            <h3 class="font-bold text-lg mb-4 text-slate-800">${m.judul}</h3>
                             <div class="flex justify-between items-center">
-                                <button onclick="window.viewMateri('${k}', '${mapel}')" class="text-indigo-600 font-bold text-sm">Lihat Detail</button>
-                                ${userData.role === 'admin' ? `<button onclick="deleteMateri('${k}','${mapel}')" class="text-red-400 text-xs">Hapus</button>` : ''}
+                                <button onclick="window.viewMateri('${id}', '${mapel}')" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold">Buka Materi</button>
+                                ${userData.role === 'admin' || m.guru === userData.nama ? 
+                                    `<button onclick="deleteMateri('${id}','${mapel}')" class="text-red-400 hover:text-red-600 text-xs font-bold">Hapus</button>` : ''}
                             </div>
                         </div>`;
                 });
             });
         };
 
+        window.viewMateri = async (id, mapel) => {
+            const snap = await get(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
+            const m = snap.val();
+            document.getElementById('modalTitle').innerText = m.judul;
+            document.getElementById('modalDescription').innerText = m.isi;
+            const media = document.getElementById('modalMedia');
+            media.innerHTML = '';
+
+            if (m.link) {
+                if (m.link.includes('youtube.com') || m.link.includes('youtu.be')) {
+                    const vidId = m.link.split('v=')[1]?.split('&')[0] || m.link.split('/').pop();
+                    media.innerHTML = `<div class="aspect-video rounded-3xl overflow-hidden shadow-lg"><iframe class="w-full h-full" src="https://www.youtube.com/embed/${vidId}" frameborder="0" allowfullscreen></iframe></div>`;
+                } else {
+                    media.innerHTML = `<a href="${m.link}" target="_blank" class="block p-6 bg-blue-50 text-blue-600 rounded-2xl text-center font-bold border border-blue-100">🔗 Klik untuk Membuka Lampiran Materi</a>`;
+                }
+            }
+            modalUI.show();
+        };
+
         window.deleteMateri = async (id, mapel) => {
-            if(confirm("Hapus materi ini?")) await remove(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
+            if(confirm("Hapus materi ini secara permanen?")) {
+                await remove(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
+            }
+        };
+
+        // --- MANAJEMEN MAPEL ---
+        function listenMapels() {
+            onValue(ref(db, 'settings/mapels'), (snap) => {
+                MAPELS = snap.val() ? Object.values(snap.val()) : ["Matematika", "IPA", "Informatika"];
+                renderMapelUI();
+            });
         }
+
+        function renderMapelUI() {
+            const filterContainer = document.getElementById('filter-mapel');
+            const selectMapel = document.getElementById('m-mapel-select');
+            const adminMapelList = document.getElementById('mapel-list');
+            
+            filterContainer.innerHTML = '';
+            selectMapel.innerHTML = '';
+            adminMapelList.innerHTML = '';
+
+            MAPELS.forEach(m => {
+                filterContainer.innerHTML += `<button onclick="window.loadMateri('${m}')" class="px-6 py-2 bg-white border rounded-xl font-bold text-slate-700 whitespace-nowrap btn-action shadow-sm">${m}</button>`;
+                selectMapel.innerHTML += `<option value="${m}">${m}</option>`;
+                adminMapelList.innerHTML += `
+                    <div class="bg-indigo-50 text-indigo-700 px-4 py-2 rounded-xl flex items-center gap-3">
+                        <span class="font-bold text-sm">${m}</span>
+                        <button onclick="deleteMapel('${m}')" class="text-red-500 font-black hover:scale-125 transition-all">×</button>
+                    </div>`;
+            });
+            // Initial load first mapel
+            if(MAPELS.length > 0) loadMateri(MAPELS[0]);
+        }
+
+        document.getElementById('btn-add-mapel').onclick = async () => {
+            const name = document.getElementById('new-mapel-name').value;
+            if(name) {
+                await set(ref(db, `settings/mapels/${name}`), name);
+                document.getElementById('new-mapel-name').value = '';
+            }
+        };
+
+        window.deleteMapel = async (name) => {
+            if(confirm(`Hapus mapel ${name}? Semua materi di dalamnya akan tersembunyi.`)) {
+                await remove(ref(db, `settings/mapels/${name}`));
+            }
+        };
+
+        // --- ADMIN: EXCEL & USER ---
+        window.importExcel = () => {
+            const file = document.getElementById('excel-file').files[0];
+            if(!file) return alert("Pilih file!");
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const workbook = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
+                const json = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
+                for(let row of json) {
+                    if(row.username) {
+                        await set(ref(db, `users/${row.username}`), {
+                            password: String(row.password || "12345"),
+                            nama: row.nama || "User",
+                            sekolah: row.sekolah || "Donggala",
+                            role: row.role || "siswa",
+                            jenjang: String(row.jenjang || "7")
+                        });
+                    }
+                }
+                alert("Data berhasil di-import!");
+            };
+            reader.readAsArrayBuffer(file);
+        };
+
+        window.exportUsers = async () => {
+            const snap = await get(ref(db, 'users'));
+            const data = Object.keys(snap.val()).map(k => ({ username: k, ...snap.val()[k] }));
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Daftar Akun");
+            XLSX.writeFile(wb, "Data_Kombel_Donggala.xlsx");
+        };
+
+        document.getElementById('btn-add-user').onclick = async () => {
+            const u = document.getElementById('u-user').value;
+            if(!u) return alert("Isi username!");
+            await set(ref(db, `users/${u}`), {
+                password: document.getElementById('u-pass').value,
+                nama: document.getElementById('u-nama').value,
+                sekolah: document.getElementById('u-sekolah').value,
+                role: document.getElementById('u-role').value,
+                jenjang: document.getElementById('u-jenjang').value
+            });
+            alert("Akun berhasil dibuat!");
+        };
+
+        // --- PENILAIAN ---
+        function loadDaftarTugas() {
+            onValue(ref(db, `tugas_masuk`), (snap) => {
+                const table = document.getElementById('tabel-penilaian');
+                table.innerHTML = '';
+                if(!snap.val()) return;
+                Object.keys(snap.val()).forEach(id => {
+                    const t = snap.val()[id];
+                    table.innerHTML += `
+                        <tr class="border-b hover:bg-slate-50 transition-all">
+                            <td class="p-4"><b>${t.namaSiswa}</b><br><small class="text-slate-500">${t.sekolah}</small></td>
+                            <td class="p-4 text-xs font-bold">${t.mapel}</td>
+                            <td class="p-4"><a href="${t.linkTugas}" target="_blank" class="text-blue-600 underline font-bold">Buka Link</a></td>
+                            <td class="p-4 font-black text-indigo-600">${t.nilai}</td>
+                            <td class="p-4"><button onclick="window.beriNilai('${id}')" class="bg-indigo-600 text-white px-3 py-1 rounded-lg text-xs">Nilai</button></td>
+                        </tr>`;
+                });
+            });
+        }
+
+        window.beriNilai = (id) => {
+            const n = prompt("Masukkan nilai (0-100):");
+            if(n) update(ref(db, `tugas_masuk/${id}`), { nilai: n });
+        };
 
         document.getElementById('btn-logout').onclick = () => location.reload();
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
