@@ -13,91 +13,86 @@
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
     .card-materi { transition: all 0.3s ease; cursor: pointer; background: white; border-radius: 20px; border: 1px solid #e2e8f0; height: 100%; display: flex; flex-direction: column; position: relative; }
     .card-materi:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.1); border-color: #3b82f6; }
-    .login-container { max-width: 1000px; overflow: hidden; border-radius: 2.5rem; }
-    .carousel-item img { height: 100%; object-fit: cover; min-height: 450px; }
+    .glass-login { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+    @media print { .no-print { display: none !important; } }
   </style>
 </head>
 <body class="p-4 bg-slate-100 min-h-screen">
 
-  <div id="login-section" class="flex items-center justify-center min-h-[95vh]">
-    <div class="login-container w-full flex flex-col md:flex-row shadow-2xl bg-white border border-white">
-      <div class="w-full md:w-1/2 bg-slate-900 overflow-hidden relative">
-        <div id="loginCarousel" class="carousel slide carousel-fade h-full" data-bs-ride="carousel">
-          <div class="carousel-inner h-full">
-            <div class="carousel-item active h-full">
-              <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=1000" class="d-block w-full" alt="Education">
-            </div>
-            <div class="carousel-item h-full">
-              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000" class="d-block w-full" alt="Collaboration">
-            </div>
-          </div>
-        </div>
+  <div id="login-section" class="flex items-center justify-center min-h-[90vh]">
+    <div class="max-w-md w-full glass-login p-10 rounded-[2.5rem] shadow-2xl border border-white">
+      <div class="flex justify-center gap-6 mb-8">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Lambang_Kabupaten_Donggala_%282015-sekarang%29.png" class="h-16 w-auto object-contain">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo-Tut-Wuri-Handayani-PNG-Warna.png" class="h-16 w-auto object-contain">
       </div>
-      <div class="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center bg-white">
-        <div class="text-center mb-8">
-          <h2 class="text-2xl font-black text-slate-800 tracking-tight uppercase">Kombel <span class="text-blue-600">Tonda Talusi</span></h2>
-          <p class="text-slate-500 text-sm font-medium italic">Literasi Digital Kabupaten Donggala</p>
-        </div>
-        <div class="space-y-4">
-          <input type="text" id="user" placeholder="Username" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
-          <input type="password" id="pass" placeholder="Password" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
-          <button id="btn-login" class="w-full bg-blue-600 text-white p-4 rounded-2xl font-bold shadow-lg shadow-blue-200 transition-all transform active:scale-95">MASUK SEKARANG</button>
-        </div>
+      <div class="text-center mb-8">
+        <h2 class="text-2xl font-black text-slate-800 tracking-tight uppercase">Portal Literasi</h2>
+        <p class="text-slate-500 text-sm font-medium">Kombel Tonda Talusi - Donggala</p>
+      </div>
+      <div class="space-y-4">
+        <input type="text" id="user" placeholder="Username" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
+        <input type="password" id="pass" placeholder="Password" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
+        <button id="btn-login" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-2xl font-bold shadow-lg transition-all">MASUK SEKARANG</button>
       </div>
     </div>
   </div>
 
   <div id="main-section" class="container max-w-6xl mx-auto hidden-section">
-    <div class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-[2rem] shadow-sm gap-4">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-[2rem] shadow-sm no-print gap-4">
       <div class="flex items-center gap-4">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Lambang_Kabupaten_Donggala_%282015-sekarang%29.png" class="h-10" alt="Logo Donggala">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Lambang_Kabupaten_Donggala_%282015-sekarang%29.png" class="h-10">
         <div>
-          <h1 class="text-xl font-black text-slate-800 uppercase leading-none">Kombel Tonda Talusi</h1>
-          <p id="user-info" class="text-blue-600 font-bold text-[10px] mt-1 uppercase"></p>
+          <h1 class="text-xl font-black text-slate-800 uppercase">Kombel Tonda Talusi</h1>
+          <p id="user-info" class="text-blue-600 font-bold text-[10px] uppercase"></p>
         </div>
       </div>
       <div class="flex gap-2">
-        <button id="btn-logout" class="bg-red-50 text-red-600 px-4 py-2 rounded-xl font-bold text-sm hover:bg-red-100 transition-colors">Keluar</button>
+        <button id="nav-log" class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl font-bold text-sm hidden-section">Log Aktivitas</button>
+        <button id="btn-logout" class="bg-red-50 text-red-600 px-4 py-2 rounded-xl font-bold text-sm">Keluar</button>
       </div>
     </div>
 
-    <div id="guru-menu" class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 hidden-section border-2 border-dashed border-slate-200">
-      <h3 class="font-bold text-slate-800 mb-6 flex items-center gap-2 text-lg">📝 Publikasi Materi Baru</h3>
+    <div id="guru-menu" class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 hidden-section no-print border-2 border-dashed border-slate-200">
+      <h3 id="form-title" class="font-bold text-slate-800 mb-6 flex items-center gap-2">📝 Posting Materi Baru</h3>
+      <input type="hidden" id="edit-id">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        <input type="text" id="m-judul" placeholder="Judul Materi" class="border p-3 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-blue-400">
-        <select id="m-jenjang" class="border p-3 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-blue-400">
+        <input type="text" id="m-judul" placeholder="Judul Materi" class="border p-3 rounded-xl bg-slate-50 outline-none">
+        <select id="m-jenjang" class="border p-3 rounded-xl bg-slate-50 outline-none">
           <option value="tk">Jenjang TK</option>
           <option value="sd">Jenjang SD</option>
           <option value="smp">Jenjang SMP</option>
         </select>
-        <input type="text" id="m-link" placeholder="URL Video/PDF" class="border p-3 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-blue-400">
-        <button id="btn-save-materi" class="bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 transition-colors">Posting Materi</button>
+        <input type="text" id="m-link" placeholder="Link YouTube/Drive" class="border p-3 rounded-xl bg-slate-50 outline-none">
+        <button id="btn-save" class="bg-emerald-600 text-white rounded-xl font-bold">Simpan</button>
       </div>
-      <textarea id="m-isi" placeholder="Tuliskan deskripsi singkat atau instruksi belajar di sini..." class="w-full border p-4 rounded-xl bg-slate-50 outline-none focus:ring-2 focus:ring-blue-400" rows="2"></textarea>
+      <textarea id="m-isi" placeholder="Deskripsi..." class="w-full border p-4 rounded-xl bg-slate-50 outline-none" rows="2"></textarea>
     </div>
 
     <div id="content-section">
-        <div id="filter-jenjang" class="flex gap-3 mb-8 hidden-section overflow-x-auto pb-2">
-            <button onclick="window.loadAllMateri('tk')" class="px-6 py-2 bg-white text-orange-500 border rounded-xl font-bold hover:bg-orange-50 min-w-[80px]">TK</button>
-            <button onclick="window.loadAllMateri('sd')" class="px-6 py-2 bg-white text-emerald-600 border rounded-xl font-bold hover:bg-emerald-50 min-w-[80px]">SD</button>
-            <button onclick="window.loadAllMateri('smp')" class="px-6 py-2 bg-white text-blue-700 border rounded-xl font-bold hover:bg-blue-50 min-w-[80px]">SMP</button>
+        <div id="filter-jenjang" class="flex gap-3 mb-8 hidden-section overflow-x-auto">
+            <button onclick="loadMateri('tk')" class="px-6 py-2 bg-white text-orange-500 border rounded-xl font-bold">TK</button>
+            <button onclick="loadMateri('sd')" class="px-6 py-2 bg-white text-emerald-600 border rounded-xl font-bold">SD</button>
+            <button onclick="loadMateri('smp')" class="px-6 py-2 bg-white text-blue-700 border rounded-xl font-bold">SMP</button>
         </div>
-        <div id="materi-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            </div>
+        <div id="materi-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+
+    <div id="log-section" class="bg-white p-8 rounded-[2rem] shadow-sm mb-8 hidden-section">
+        <h3 class="font-bold mb-4">Daftar Aktivitas Siswa</h3>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead><tr class="border-b"><th class="p-3">Waktu</th><th class="p-3">Siswa</th><th class="p-3">Materi</th><th class="p-3">Durasi</th></tr></thead>
+                <tbody id="log-table"></tbody>
+            </table>
+        </div>
     </div>
   </div>
 
   <div class="modal fade" id="materiModal" data-bs-backdrop="static" tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered">
-      <div class="modal-content rounded-[2.5rem] border-0 shadow-2xl overflow-hidden">
-        <div class="modal-header border-0 px-8 pt-8 pb-0">
-          <h5 class="modal-title font-black text-2xl text-slate-800" id="modalTitle"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body p-8 pt-4">
-          <div id="modalDescription" class="bg-slate-50 p-6 rounded-3xl mb-6 text-slate-600 leading-relaxed border border-slate-100"></div>
-          <div id="modalMedia"></div>
-        </div>
+      <div class="modal-content rounded-[2.5rem] border-0 overflow-hidden">
+        <div class="modal-header border-0 px-8 pt-8"><h5 class="modal-title font-black" id="modalTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body p-8"><div id="modalDescription" class="mb-4 text-slate-600"></div><div id="modalMedia"></div></div>
       </div>
     </div>
   </div>
@@ -108,7 +103,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, set, push, get, child, remove, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    // --- FIREBASE CONFIGURATION ---
     const firebaseConfig = {
         apiKey: "AIzaSyB7b8kFlpUrRevwEl0-onf-anerlJGRLPM",
         authDomain: "datagtkdonggala-7244e.firebaseapp.com",
@@ -126,161 +120,102 @@
     let userData = null;
     let startTime, currentMateriJudul;
 
-    // --- ALUR LOGIN ---
+    // LOGIN LOGIC
     document.getElementById('btn-login').onclick = async () => {
-        const u = document.getElementById('user').value.trim();
-        const p = document.getElementById('pass').value.trim();
+        const u = document.getElementById('user').value;
+        const p = document.getElementById('pass').value;
+        const snapshot = await get(ref(db, `users/${u}`));
         
-        if(!u || !p) return alert("Harap isi username dan password.");
-
-        const btn = document.getElementById('btn-login');
-        btn.innerText = "Memverifikasi...";
-        btn.disabled = true;
-
-        try {
-            const dbRef = ref(db);
-            const snapshot = await get(child(dbRef, `users/${u}`));
+        if (snapshot.exists() && snapshot.val().password === p) {
+            userData = { ...snapshot.val(), username: u };
+            document.getElementById('login-section').classList.add('hidden-section');
+            document.getElementById('main-section').classList.remove('hidden-section');
+            document.getElementById('user-info').innerText = `${userData.nama} • ${userData.sekolah}`;
             
-            if (snapshot.exists() && snapshot.val().password === p) {
-                userData = { ...snapshot.val(), username: u };
-                initPortal();
+            if(userData.role !== 'siswa') {
+                document.getElementById('guru-menu').classList.remove('hidden-section');
+                document.getElementById('filter-jenjang').classList.remove('hidden-section');
+                if(userData.role === 'admin') document.getElementById('nav-log').classList.remove('hidden-section');
+                window.loadMateri('tk');
             } else {
-                alert("Login gagal. Periksa kembali akun Anda.");
-                btn.innerText = "MASUK SEKARANG";
-                btn.disabled = false;
+                window.loadMateri(userData.jenjang);
             }
-        } catch (e) {
-            alert("Koneksi gagal: " + e.message);
-            btn.innerText = "MASUK SEKARANG";
-            btn.disabled = false;
-        }
-    };
-
-    function initPortal() {
-        document.getElementById('login-section').classList.add('hidden-section');
-        document.getElementById('main-section').classList.remove('hidden-section');
-        document.getElementById('user-info').innerText = `${userData.nama} • ${userData.sekolah}`;
-        
-        // Pengaturan hak akses (Guru vs Siswa)
-        if(userData.role !== 'siswa') {
-            document.getElementById('guru-menu').classList.remove('hidden-section');
-            document.getElementById('filter-jenjang').classList.remove('hidden-section');
-            window.loadAllMateri('tk'); 
         } else {
-            // Siswa hanya melihat jenjang miliknya sendiri
-            window.loadAllMateri(userData.jenjang);
-        }
-    }
-
-    // --- LOAD MATERI (REALTIME) ---
-    window.loadAllMateri = function(jenjang) {
-        const materiRef = ref(db, 'materi/' + jenjang);
-        onValue(materiRef, (snapshot) => {
-            const data = snapshot.val();
-            renderMateri(data, jenjang);
-        });
-    }
-
-    function renderMateri(data, jenjang) {
-        const container = document.getElementById('materi-container');
-        container.innerHTML = '';
-        
-        if(!data) {
-            container.innerHTML = `
-              <div class="col-span-full py-20 text-center">
-                <p class="text-slate-400 font-medium">Belum ada materi tersedia untuk jenjang ${jenjang.toUpperCase()}.</p>
-              </div>`;
-            return;
-        }
-
-        Object.keys(data).forEach(key => {
-            const item = data[key];
-            const card = document.createElement('div');
-            card.className = 'p-8 card-materi';
-            card.innerHTML = `
-                <div class="flex-grow" onclick="window.openMateri('${key}', '${jenjang}')">
-                    <span class="bg-blue-50 text-blue-600 text-[10px] font-black px-2 py-1 rounded-md uppercase">${jenjang}</span>
-                    <h3 class="font-bold text-slate-800 mt-4 leading-tight">${item.judul}</h3>
-                    <p class="text-sm text-slate-400 mt-3 line-clamp-3">${item.isi || 'Klik untuk melihat materi...'}</p>
-                </div>
-                ${userData.role !== 'siswa' ? `
-                <div class="mt-6 pt-4 border-t flex justify-end">
-                    <button onclick="window.delMateri('${key}', '${jenjang}')" class="text-red-500 font-bold text-[10px] hover:bg-red-50 px-3 py-2 rounded-xl transition-all">HAPUS</button>
-                </div>` : ''}
-            `;
-            container.appendChild(card);
-        });
-    }
-
-    // --- PUBLIKASI MATERI (GURU) ---
-    document.getElementById('btn-save-materi').onclick = async () => {
-        const j = document.getElementById('m-jenjang').value;
-        const judul = document.getElementById('m-judul').value.trim();
-        const isi = document.getElementById('m-isi').value.trim();
-        const link = document.getElementById('m-link').value.trim();
-
-        if(!judul || !link) return alert("Minimal isi Judul dan Link Materi!");
-
-        try {
-            await push(ref(db, 'materi/' + j), { judul, isi, link });
-            alert("Materi berhasil dipublikasikan!");
-            // Reset form
-            document.getElementById('m-judul').value = '';
-            document.getElementById('m-isi').value = '';
-            document.getElementById('m-link').value = '';
-        } catch (e) {
-            alert("Gagal memproses: " + e.message);
+            alert("Login Gagal!");
         }
     };
 
-    // --- PLAYER & LOGGING ---
+    // LOAD MATERI
+    window.loadMateri = (jenjang) => {
+        onValue(ref(db, `materi/${jenjang}`), (snapshot) => {
+            const data = snapshot.val();
+            const container = document.getElementById('materi-container');
+            container.innerHTML = '';
+            if(!data) return container.innerHTML = "Kosong";
+            
+            Object.keys(data).forEach(key => {
+                const item = data[key];
+                const card = document.createElement('div');
+                card.className = 'p-8 card-materi';
+                card.innerHTML = `
+                    <div onclick="window.openMateri('${key}', '${jenjang}')">
+                        <span class="text-[10px] font-bold text-blue-600 uppercase">${jenjang}</span>
+                        <h3 class="font-bold mt-2">${item.judul}</h3>
+                    </div>
+                    ${userData.role !== 'siswa' ? `<button onclick="window.delMateri('${key}', '${jenjang}')" class="text-red-500 text-xs mt-4">Hapus</button>` : ''}
+                `;
+                container.appendChild(card);
+            });
+        });
+    };
+
+    // SAVE MATERI
+    document.getElementById('btn-save').onclick = async () => {
+        const payload = {
+            judul: document.getElementById('m-judul').value,
+            jenjang: document.getElementById('m-jenjang').value,
+            link: document.getElementById('m-link').value,
+            isi: document.getElementById('m-isi').value
+        };
+        await push(ref(db, `materi/${payload.jenjang}`), payload);
+        alert("Berhasil!");
+    };
+
+    // OPEN PLAYER
     window.openMateri = async (id, jenjang) => {
-        const snapshot = await get(ref(db, `materi/${jenjang}/${id}`));
-        const item = snapshot.val();
+        const snap = await get(ref(db, `materi/${jenjang}/${id}`));
+        const item = snap.val();
         currentMateriJudul = item.judul;
         startTime = new Date();
-
+        
         document.getElementById('modalTitle').innerText = item.judul;
-        document.getElementById('modalDescription').innerText = item.isi || 'Belum ada deskripsi tambahan.';
-        
+        document.getElementById('modalDescription').innerText = item.isi;
         const media = document.getElementById('modalMedia');
-        let url = item.link;
         
-        // Cek jika YouTube
-        if (url.includes('youtube.com') || url.includes('youtu.be')) {
-            let videoId = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop().split('?')[0];
-            media.innerHTML = `
-              <div class="video-container shadow-lg">
-                <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" allow="autoplay; encrypted-media; allowfullscreen"></iframe>
-              </div>`;
+        if (item.link.includes('youtube')) {
+            let vId = item.link.split('v=')[1]?.split('&')[0] || item.link.split('/').pop();
+            media.innerHTML = `<div class="video-container"><iframe src="https://www.youtube.com/embed/${vId}?autoplay=1"></iframe></div>`;
         } else {
-            // Jika link Drive atau URL lainnya
-            media.innerHTML = `<iframe src="${url}" class="w-full h-[550px] border rounded-3xl bg-slate-100 shadow-inner"></iframe>`;
+            media.innerHTML = `<iframe src="${item.link}" class="w-full h-[500px] border rounded-2xl"></iframe>`;
         }
         myModal.show();
     };
 
-    // Logging aktivitas saat modal ditutup
+    // LOGGING
     document.getElementById('materiModal').addEventListener('hidden.bs.modal', () => {
-        if(userData && userData.role === 'siswa') {
-            const durasiDetik = Math.round((new Date() - startTime) / 1000);
+        if(userData.role === 'siswa') {
+            const durasi = Math.round((new Date() - startTime) / 1000);
             push(ref(db, 'logs'), {
                 nama: userData.nama,
-                sekolah: userData.sekolah,
                 materi: currentMateriJudul,
-                durasi: durasiDetik + " detik",
+                durasi: durasi + " detik",
                 waktu: new Date().toLocaleString('id-ID')
             });
         }
-        document.getElementById('modalMedia').innerHTML = ''; // Stop video agar tidak bersuara
+        document.getElementById('modalMedia').innerHTML = '';
     });
 
-    window.delMateri = (id, jenjang) => {
-        if(confirm("Hapus materi ini secara permanen?")) {
-            remove(ref(db, `materi/${jenjang}/${id}`));
-        }
-    }
-
+    window.delMateri = (id, jenjang) => confirm("Hapus?") && remove(ref(db, `materi/${jenjang}/${id}`));
     document.getElementById('btn-logout').onclick = () => location.reload();
   </script>
 </body>
