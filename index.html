@@ -2,207 +2,348 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal Edukasi - Kombel Tonda Talusi</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        body { background-color: #f1f5f9; font-family: 'Segoe UI', sans-serif; }
-        .hidden-section { display: none !important; }
-        .card-materi { transition: all 0.3s; background: white; border-radius: 20px; border: 1px solid #e2e8f0; }
-        .card-materi:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .active-link { border-left: 4px solid #facc15; background-color: #3730a3; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .modal-active { display: flex !important; }
+        #media-modal { display: none; }
     </style>
 </head>
-<body class="p-4 bg-slate-100 min-h-screen">
+<body class="bg-gray-100 font-sans text-gray-800">
 
-    <div id="login-section" class="flex items-center justify-center min-h-[90vh]">
-        <div class="max-w-md w-full bg-white p-10 rounded-[2.5rem] shadow-2xl">
-            <div class="text-center mb-8">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Lambang_Kabupaten_Donggala_%282015-sekarang%29.png" class="h-16 mx-auto mb-4">
-                <h2 class="text-2xl font-black text-slate-800 uppercase">Portal Belajar<br>Tonda Talusi</h2>
+    <div id="media-modal" class="fixed inset-0 bg-black/80 z-[200] items-center justify-center p-4">
+        <div class="bg-white w-full max-w-3xl rounded-3xl overflow-hidden flex flex-col shadow-2xl">
+            <div class="p-6 bg-gray-50 border-b flex justify-between items-center">
+                <h3 id="modal-title" class="font-black text-indigo-900 truncate">Judul Materi</h3>
+                <button onclick="closeMedia()" class="text-gray-400 hover:text-red-500 text-2xl">&times;</button>
             </div>
-            <div class="space-y-4">
-                <input type="text" id="user" placeholder="Username" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
-                <input type="password" id="pass" placeholder="Password" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
-                <button id="btn-login" class="w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-2xl font-bold transition-all shadow-lg">MASUK</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="main-section" class="container max-w-6xl mx-auto hidden-section">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-6 rounded-[2rem] shadow-sm gap-4">
-            <div class="flex items-center gap-4">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Lambang_Kabupaten_Donggala_%282015-sekarang%29.png" class="h-10">
-                <div>
-                    <h1 class="text-xl font-black text-slate-800 uppercase">Kombel Tonda Talusi</h1>
-                    <p id="user-info" class="text-blue-600 font-bold text-[10px] uppercase"></p>
-                </div>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="showPanel('materi')" class="bg-slate-100 px-4 py-2 rounded-xl font-bold text-sm">📚 Materi</button>
-                <button id="nav-penilaian" onclick="showPanel('penilaian')" class="bg-emerald-50 text-emerald-600 px-4 py-2 rounded-xl font-bold text-sm hidden-section">📋 Penilaian</button>
-                <button id="btn-logout" class="bg-red-50 text-red-600 px-4 py-2 rounded-xl font-bold text-sm">Keluar</button>
-            </div>
-        </div>
-
-        <div id="panel-materi">
-            <div id="filter-mapel" class="flex gap-3 mb-8 overflow-x-auto pb-2"></div>
-            <div id="materi-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-        </div>
-
-        <div id="panel-penilaian" class="hidden-section">
-            <div class="bg-white p-8 rounded-[2rem] shadow-sm">
-                <h3 class="font-bold mb-6">📋 Daftar Tugas Masuk</h3>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead><tr class="bg-slate-50 border-b"><th class="p-4">Siswa</th><th class="p-4">Mapel</th><th class="p-4">Link</th><th class="p-4">Nilai</th></tr></thead>
-                        <tbody id="tabel-penilaian"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="materiModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content rounded-[2rem] border-0">
-                <div class="modal-body p-8">
-                    <h2 id="modalTitle" class="text-2xl font-black mb-4"></h2>
-                    <div id="modalDescription" class="mb-6 text-slate-600"></div>
-                    <div id="modalMedia" class="mb-8"></div>
-                    
-                    <div id="form-tugas-siswa" class="border-t pt-6 hidden-section">
-                        <h4 class="font-bold mb-3">📤 Kirim Tugas</h4>
-                        <input type="text" id="tugas-link" placeholder="Link (Google Drive/Canva)" class="w-full p-3 border rounded-xl mb-3">
-                        <button id="btn-submit-tugas" class="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold w-full">Kirim</button>
+            <div class="p-6 overflow-y-auto max-h-[70vh]">
+                <p id="modal-desc" class="text-gray-600 mb-6"></p>
+                <div id="modal-link-box" class="mb-6"></div>
+                
+                <div id="siswa-submit-area" class="hidden border-t pt-6">
+                    <h4 class="font-bold text-indigo-900 mb-2"><i class="fa fa-upload mr-2"></i>Kirim Tugas</h4>
+                    <div class="flex gap-2">
+                        <input id="tugas-url" placeholder="Tempel Link Tugas (Drive/Canva/Youtube)" class="flex-1 p-3 border-2 rounded-xl focus:border-indigo-500 outline-none">
+                        <button onclick="submitTugas()" class="bg-indigo-600 text-white px-6 rounded-xl font-bold hover:bg-indigo-700">Kirim</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, get, set, push, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    <div id="auth-overlay" class="fixed inset-0 bg-indigo-900 z-[100] flex items-center justify-center p-4">
+        <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md border-t-8 border-yellow-400">
+            <div class="text-center mb-8">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Lambang_Kabupaten_Donggala_%282015-sekarang%29.png" class="h-16 mx-auto mb-4">
+                <h2 class="text-2xl font-black text-indigo-900 leading-tight uppercase">Portal Belajar<br>Tonda Talusi</h2>
+            </div>
+            <div class="space-y-4">
+                <input type="email" id="login-email" placeholder="Email Belajar.id" class="w-full p-4 bg-gray-50 border-2 rounded-2xl outline-none focus:border-indigo-500">
+                <input type="password" id="login-pass" placeholder="Password" class="w-full p-4 bg-gray-50 border-2 rounded-2xl outline-none focus:border-indigo-500">
+                <button onclick="handleLogin()" id="btn-login" class="w-full bg-indigo-600 text-white p-4 rounded-2xl font-black hover:bg-indigo-700 shadow-lg transition-all">MASUK</button>
+            </div>
+        </div>
+    </div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyB7b8kFlpUrRevwEl0-onf-anerlJGRLPM",
-            authDomain: "datagtkdonggala-7244e.firebaseapp.com",
-            projectId: "datagtkdonggala-7244e",
-            databaseURL: "https://datagtkdonggala-7244e-default-rtdb.asia-southeast1.firebasedatabase.app"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const modalUI = new bootstrap.Modal(document.getElementById('materiModal'));
-
-        let userData = null;
-        let currentMateri = null;
-
-        // AUTH
-        document.getElementById('btn-login').onclick = async () => {
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            const snap = await get(ref(db, `users/${u}`));
-            
-            if (snap.exists() && snap.val().password === p) {
-                userData = { ...snap.val(), username: u };
-                document.getElementById('login-section').classList.add('hidden-section');
-                document.getElementById('main-section').classList.remove('hidden-section');
-                document.getElementById('user-info').innerText = `${userData.nama} | ${userData.sekolah} | Kelas ${userData.jenjang}`;
+    <div class="flex h-screen overflow-hidden">
+        <aside class="w-64 bg-indigo-950 text-white flex-shrink-0 hidden md:flex flex-col shadow-2xl">
+            <div class="p-8 text-center border-b border-indigo-900">
+                <h1 class="font-black tracking-tighter text-xl uppercase italic">Tonda<span class="text-yellow-400">Talusi</span></h1>
+            </div>
+            <nav class="flex-1 p-4 space-y-2 overflow-y-auto hide-scroll">
+                <div id="nav-admin" class="hidden pb-4 mb-4 border-b border-indigo-900">
+                    <p class="px-4 text-[10px] font-bold text-yellow-400 uppercase mb-2">Admin / Guru</p>
+                    <button onclick="showSection('admin-materi')" class="w-full text-left p-3 hover:bg-indigo-800 rounded-xl flex items-center gap-3"><i class="fa fa-edit text-indigo-400"></i>Kelola Materi</button>
+                    <button onclick="showSection('admin-penilaian')" class="w-full text-left p-3 hover:bg-indigo-800 rounded-xl flex items-center gap-3"><i class="fa fa-star text-indigo-400"></i>Penilaian</button>
+                </div>
                 
-                if(userData.role !== 'siswa') document.getElementById('nav-penilaian').classList.remove('hidden-section');
-                loadSettings();
-            } else { alert("Login Gagal!"); }
-        };
+                <p class="px-4 text-[10px] font-bold text-indigo-400 uppercase mb-2">Menu Siswa</p>
+                <button onclick="showSection('siswa-materi')" class="w-full text-left p-3 hover:bg-indigo-800 rounded-xl flex items-center gap-3"><i class="fa fa-book-open"></i>Ruang Belajar</button>
+            </nav>
 
-        function loadSettings() {
-            // Load Mapel Filters
-            onValue(ref(db, `materi_v2/${userData.jenjang}`), (snap) => {
-                const data = snap.val() || {};
+            <div class="p-6 bg-black/20 border-t border-indigo-900">
+                <div id="user-display" class="font-bold text-yellow-400 text-sm truncate">...</div>
+                <div id="user-school" class="text-[10px] text-gray-400 uppercase mb-4">...</div>
+                <button onclick="handleLogout()" class="w-full py-2 rounded-lg bg-red-500/10 text-red-400 text-xs font-bold border border-red-500/20 hover:bg-red-500 hover:text-white">KELUAR</button>
+            </div>
+        </aside>
+
+        <main class="flex-1 flex flex-col bg-slate-50 overflow-y-auto">
+            <header class="bg-white/80 backdrop-blur-md p-5 sticky top-0 z-40 flex justify-between items-center border-b shadow-sm">
+                <h2 id="section-title" class="font-black text-indigo-900 uppercase tracking-widest">Dashboard</h2>
+                <div id="jenjang-badge" class="bg-indigo-100 text-indigo-600 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">SD/SMP/SMA</div>
+            </header>
+
+            <div id="main-content" class="p-8 max-w-6xl mx-auto w-full">
+                </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAu4HfC2TQGf_LZPIDRiW-02iZiXeKo6js",
+            authDomain: "kombeltondatalusi.firebaseapp.com",
+            databaseURL: "https://kombeltondatalusi-default-rtdb.asia-southeast1.firebasedatabase.app/",
+            projectId: "kombeltondatalusi",
+            storageBucket: "kombeltondatalusi.firebasestorage.app",
+            messagingSenderId: "490296730086",
+            appId: "1:490296730086:web:c5e9250de6230bf8a4b627"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth(), db = firebase.database();
+
+        let userSession = null;
+        let activeMateri = null;
+
+        // AUTH HANDLER
+        async function handleLogin() {
+            const e = document.getElementById('login-email').value;
+            const p = document.getElementById('login-pass').value;
+            try {
+                await auth.signInWithEmailAndPassword(e, p);
+            } catch (err) {
+                alert("Login Gagal: " + err.message);
+            }
+        }
+
+        function handleLogout() {
+            auth.signOut().then(() => location.reload());
+        }
+
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                db.ref('users/' + user.uid).once('value', snap => {
+                    userSession = snap.exists() ? snap.val() : { name: user.email.split('@')[0], role: 'siswa', jenjang: 'SMP', sekolah: 'Sekolah Contoh' };
+                    document.getElementById('auth-overlay').classList.add('hidden');
+                    initUI();
+                });
+            }
+        });
+
+        function initUI() {
+            document.getElementById('user-display').innerText = userSession.name || userSession.nama;
+            document.getElementById('user-school').innerText = userSession.sekolah;
+            document.getElementById('jenjang-badge').innerText = "Jenjang: " + userSession.jenjang;
+            
+            if(userSession.role !== 'siswa') {
+                document.getElementById('nav-admin').classList.remove('hidden');
+            }
+            showSection('siswa-materi');
+        }
+
+        // NAVIGATION ROUTER
+        function showSection(id) {
+            const content = document.getElementById('main-content');
+            document.getElementById('section-title').innerText = id.replace(/-/g, ' ');
+
+            if (id === 'siswa-materi') {
+                content.innerHTML = `
+                    <div id="filter-mapel" class="flex gap-2 mb-8 overflow-x-auto pb-2">
+                        <button onclick="renderMateri('Semua')" class="px-6 py-2 bg-indigo-600 text-white rounded-xl font-bold whitespace-nowrap shadow-md">Semua Mapel</button>
+                    </div>
+                    <div id="materi-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                `;
+                loadFiltersAndMateri();
+            } 
+            else if (id === 'admin-materi') {
+                content.innerHTML = `
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border mb-8">
+                        <h3 class="font-black text-indigo-900 mb-6 uppercase">Input Materi Baru</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input id="m-title" placeholder="Judul Materi" class="p-3 border rounded-xl">
+                            <select id="m-mapel" class="p-3 border rounded-xl">
+                                <option>Bahasa Indonesia</option><option>Matematika</option><option>IPA</option><option>IPS</option><option>Lainnya</option>
+                            </select>
+                            <textarea id="m-desc" placeholder="Isi Materi / Instruksi Tugas" class="p-3 border rounded-xl md:col-span-2 h-32"></textarea>
+                            <input id="m-link" placeholder="Link Media (Youtube/Drive)" class="p-3 border rounded-xl md:col-span-2">
+                            <button onclick="saveMateri()" class="bg-indigo-600 text-white p-4 rounded-xl font-black md:col-span-2 hover:bg-indigo-700 transition-all">PUBLIKASIKAN MATERI</button>
+                        </div>
+                    </div>
+                    <div id="admin-materi-list" class="space-y-4"></div>
+                `;
+                loadAdminMateri();
+            }
+            else if (id === 'admin-penilaian') {
+                content.innerHTML = `
+                    <div class="bg-white rounded-3xl shadow-sm border overflow-hidden">
+                        <table class="w-full text-left">
+                            <thead class="bg-indigo-900 text-white text-[10px] uppercase">
+                                <tr>
+                                    <th class="p-4">Siswa</th>
+                                    <th class="p-4">Materi</th>
+                                    <th class="p-4">Link Tugas</th>
+                                    <th class="p-4">Nilai</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-tugas" class="text-sm"></tbody>
+                        </table>
+                    </div>
+                `;
+                loadTugasMasuk();
+            }
+        }
+
+        // LOGIC MATERI
+        function saveMateri() {
+            const data = {
+                judul: document.getElementById('m-title').value,
+                mapel: document.getElementById('m-mapel').value,
+                isi: document.getElementById('m-desc').value,
+                link: document.getElementById('m-link').value,
+                jenjang: userSession.jenjang,
+                teacher: userSession.name,
+                date: new Date().toLocaleString()
+            };
+            db.ref('materials_v3').push(data).then(() => {
+                alert("Materi Berhasil Disimpan!");
+                showSection('admin-materi');
+            });
+        }
+
+        function loadFiltersAndMateri(filter = 'Semua') {
+            db.ref('materials_v3').on('value', snap => {
+                const list = document.getElementById('materi-list');
                 const filterBox = document.getElementById('filter-mapel');
-                filterBox.innerHTML = '';
-                Object.keys(data).forEach(mapel => {
-                    filterBox.innerHTML += `<button onclick="renderMateri('${mapel}')" class="px-6 py-2 bg-white border rounded-xl font-bold shadow-sm whitespace-nowrap">${mapel}</button>`;
+                if(!list) return;
+                
+                list.innerHTML = "";
+                const mapels = new Set(['Semua']);
+
+                snap.forEach(child => {
+                    const m = child.val();
+                    if(m.jenjang === userSession.jenjang) {
+                        mapels.add(m.mapel);
+                        if(filter === 'Semua' || m.mapel === filter) {
+                            list.innerHTML += `
+                                <div class="bg-white p-6 rounded-[2rem] border-b-4 border-indigo-500 shadow-sm hover:shadow-xl transition-all cursor-pointer" onclick="openMedia('${child.key}')">
+                                    <span class="text-[9px] font-black bg-indigo-100 text-indigo-600 px-3 py-1 rounded-full uppercase">${m.mapel}</span>
+                                    <h3 class="font-bold text-lg mt-3 text-indigo-900">${m.judul}</h3>
+                                    <p class="text-xs text-gray-400 mt-1">Oleh: ${m.teacher}</p>
+                                </div>
+                            `;
+                        }
+                    }
+                });
+
+                // Update Filter Buttons
+                filterBox.innerHTML = "";
+                mapels.forEach(mapel => {
+                    const active = filter === mapel ? 'bg-indigo-600 text-white' : 'bg-white text-gray-500';
+                    filterBox.innerHTML += `<button onclick="loadFiltersAndMateri('${mapel}')" class="px-6 py-2 ${active} rounded-xl font-bold whitespace-nowrap shadow-sm border transition-all">${mapel}</button>`;
                 });
             });
         }
 
-        window.renderMateri = (mapel) => {
-            onValue(ref(db, `materi_v2/${userData.jenjang}/${mapel}`), (snap) => {
-                const container = document.getElementById('materi-container');
-                container.innerHTML = '';
-                const items = snap.val();
-                if(!items) return;
-                Object.keys(items).forEach(id => {
-                    const m = items[id];
-                    container.innerHTML += `
-                        <div class="p-6 card-materi border-l-4 border-blue-500">
-                            <span class="text-[10px] font-bold text-blue-500 uppercase">${mapel}</span>
-                            <h3 class="font-bold text-lg mb-4">${m.judul}</h3>
-                            <button onclick="openMateri('${id}', '${mapel}')" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold">Buka Materi</button>
-                        </div>`;
-                });
+        function openMedia(id) {
+            db.ref('materials_v3/' + id).once('value', snap => {
+                const m = snap.val();
+                activeMateri = { ...m, id: id };
+                
+                document.getElementById('modal-title').innerText = m.judul;
+                document.getElementById('modal-desc').innerText = m.isi;
+                document.getElementById('modal-link-box').innerHTML = m.link ? 
+                    `<a href="${m.link}" target="_blank" class="flex items-center justify-center gap-3 p-4 bg-blue-50 text-blue-600 rounded-2xl font-bold hover:bg-blue-100 transition-all">
+                        <i class="fa fa-link"></i> Buka Lampiran Media
+                    </a>` : '';
+                
+                if(userSession.role === 'siswa') {
+                    document.getElementById('siswa-submit-area').classList.remove('hidden');
+                }
+                
+                document.getElementById('media-modal').classList.add('modal-active');
             });
-        };
+        }
 
-        window.openMateri = async (id, mapel) => {
-            const snap = await get(ref(db, `materi_v2/${userData.jenjang}/${mapel}/${id}`));
-            currentMateri = { ...snap.val(), id: id };
-            document.getElementById('modalTitle').innerText = currentMateri.judul;
-            document.getElementById('modalDescription').innerText = currentMateri.isi;
-            document.getElementById('modalMedia').innerHTML = currentMateri.link ? `<a href="${currentMateri.link}" target="_blank" class="block p-4 bg-blue-50 text-blue-600 rounded-xl text-center font-bold">🔗 Buka Lampiran</a>` : '';
+        function closeMedia() {
+            document.getElementById('media-modal').classList.remove('modal-active');
+        }
+
+        // LOGIC TUGAS & NILAI
+        function submitTugas() {
+            const url = document.getElementById('tugas-url').value;
+            if(!url) return alert("Masukkan link tugas anda!");
             
-            if(userData.role === 'siswa') document.getElementById('form-tugas-siswa').classList.remove('hidden-section');
-            modalUI.show();
-        };
-
-        document.getElementById('btn-submit-tugas').onclick = async () => {
-            const link = document.getElementById('tugas-link').value;
-            if(!link) return alert("Isi link tugas!");
-            await push(ref(db, 'tugas_siswa'), {
-                siswa: userData.nama,
-                jenjang: userData.jenjang,
-                mapel: currentMateri.mapel,
-                judulTugas: currentMateri.judul,
-                linkTugas: link,
+            const payload = {
+                uid: auth.currentUser.uid,
+                siswa: userSession.name || userSession.nama,
+                sekolah: userSession.sekolah,
+                jenjang: userSession.jenjang,
+                materi: activeMateri.judul,
+                link: url,
                 nilai: "-",
                 timestamp: new Date().toLocaleString()
+            };
+
+            db.ref('tugas_masuk').push(payload).then(() => {
+                alert("Tugas Terkirim! Silakan tunggu penilaian dari guru.");
+                closeMedia();
             });
-            alert("Tugas Terkirim!");
-            modalUI.hide();
-        };
+        }
 
-        window.showPanel = (id) => {
-            ['panel-materi', 'panel-penilaian'].forEach(p => document.getElementById(p).classList.add('hidden-section'));
-            document.getElementById('panel-' + id).classList.remove('hidden-section');
-            if(id === 'penilaian') loadTugas();
-        };
-
-        function loadTugas() {
-            onValue(ref(db, 'tugas_siswa'), (snap) => {
-                const table = document.getElementById('tabel-penilaian');
-                table.innerHTML = '';
-                const data = snap.val();
-                if(!data) return;
-                Object.keys(data).forEach(id => {
-                    const t = data[id];
-                    if(userData.role !== 'admin' && t.jenjang !== userData.jenjang) return;
-                    table.innerHTML += `<tr class="border-b">
-                        <td class="p-4 font-bold">${t.siswa}</td>
-                        <td class="p-4">${t.mapel}</td>
-                        <td class="p-4"><a href="${t.linkTugas}" target="_blank" class="text-blue-600 underline">Buka</a></td>
-                        <td class="p-4"><input type="text" value="${t.nilai}" onchange="updateNilai('${id}', this.value)" class="w-12 border rounded text-center"></td>
-                    </tr>`;
+        function loadTugasMasuk() {
+            db.ref('tugas_masuk').on('value', snap => {
+                const table = document.getElementById('tabel-tugas');
+                if(!table) return;
+                table.innerHTML = "";
+                
+                snap.forEach(child => {
+                    const t = child.val();
+                    // Admin melihat semua, guru melihat jenjang yang sama
+                    if(userSession.role === 'admin' || t.jenjang === userSession.jenjang) {
+                        table.innerHTML += `
+                            <tr class="border-b hover:bg-slate-50">
+                                <td class="p-4 font-bold">${t.siswa}<br><span class="text-[10px] text-gray-400 font-normal">${t.sekolah}</span></td>
+                                <td class="p-4 text-xs">${t.materi}</td>
+                                <td class="p-4"><a href="${t.link}" target="_blank" class="text-indigo-600 font-bold underline italic">Buka Tugas</a></td>
+                                <td class="p-4">
+                                    <input type="text" value="${t.nilai}" onchange="updateNilai('${child.key}', this.value)" class="w-16 p-2 border rounded-lg text-center font-bold text-indigo-600">
+                                </td>
+                            </tr>
+                        `;
+                    }
                 });
             });
         }
 
-        window.updateNilai = (id, val) => update(ref(db, `tugas_siswa/${id}`), { nilai: val });
-        window.renderMateri = renderMateri; // Expose to global
-        document.getElementById('btn-logout').onclick = () => location.reload();
+        function updateNilai(id, val) {
+            db.ref('tugas_masuk/' + id).update({ nilai: val });
+        }
 
+        function loadAdminMateri() {
+            db.ref('materials_v3').on('value', snap => {
+                const list = document.getElementById('admin-materi-list');
+                if(!list) return;
+                list.innerHTML = "";
+                snap.forEach(child => {
+                    const m = child.val();
+                    if(m.jenjang === userSession.jenjang) {
+                        list.innerHTML += `
+                            <div class="bg-white p-4 rounded-2xl border flex justify-between items-center shadow-sm">
+                                <div>
+                                    <h4 class="font-bold text-indigo-900">${m.judul}</h4>
+                                    <p class="text-[10px] text-gray-400">${m.mapel} | ${m.date}</p>
+                                </div>
+                                <button onclick="deleteMateri('${child.key}')" class="text-red-400 hover:text-red-600 p-2"><i class="fa fa-trash"></i></button>
+                            </div>
+                        `;
+                    }
+                });
+            });
+        }
+
+        function deleteMateri(id) {
+            if(confirm("Hapus materi ini?")) db.ref('materials_v3/' + id).remove();
+        }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
